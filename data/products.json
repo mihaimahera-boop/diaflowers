@@ -1,5 +1,14 @@
 [
   {
+    "id": "p_1780918334123_ceb142",
+    "name": "Buchet Lalele",
+    "category": "Buchete",
+    "price": 70,
+    "stock": 1,
+    "image": "/images/products/1780918334070-buchet-cu-lalele-colorate.jpg",
+    "description": ""
+  },
+  {
     "id": "p1",
     "name": "Buchet Trandafiri Roșii",
     "category": "Buchete",

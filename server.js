@@ -2,6 +2,7 @@ const express = require('express');
 const fs = require('fs');
 const path = require('path');
 const cors = require('cors');
+const multer = require('multer');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -12,6 +13,19 @@ const ORDERS_FILE = path.join(DATA_DIR, 'orders.json');
 app.use(cors());
 app.use(express.json({ limit: '1mb' }));
 app.use(express.static(path.join(__dirname, 'public')));
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, path.join(__dirname, 'public/images/products'));
+  },
+  filename: (req, file, cb) => {
+    const uniqueName =
+      Date.now() + "-" + file.originalname.replace(/\s+/g, "-");
+
+    cb(null, uniqueName);
+  }
+});
+
+const upload = multer({ storage });
 
 function ensureFiles() {
   if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR);
@@ -87,5 +101,17 @@ app.patch('/api/orders/:id/status', (req, res) => {
   writeJson(ORDERS_FILE, orders);
   res.json(order);
 });
+app.post('/api/upload', upload.single('image'), (req, res) => {
 
+  if (!req.file) {
+    return res.status(400).json({
+      error: 'Nu ai selectat imagine.'
+    });
+  }
+
+  res.json({
+    imageUrl: `/images/products/${req.file.filename}`
+  });
+
+});
 app.listen(PORT, () => console.log(`Floraria online rulează pe http://localhost:${PORT}`));

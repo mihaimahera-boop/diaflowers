@@ -721,3 +721,10 @@ footer{
         grid-template-columns:1fr;
     }
 }
+.admin-product-img{
+  width:100%;
+  height:140px;
+  object-fit:cover;
+  border-radius:16px;
+  margin-bottom:12px;
+}
