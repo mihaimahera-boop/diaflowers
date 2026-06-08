@@ -827,3 +827,11 @@ footer{
   background:#e11d72;
   color:white;
 }
+.promo-banner {
+  background: linear-gradient(90deg, #e91e63, #ff6fa5);
+  color: white;
+  text-align: center;
+  padding: 12px;
+  font-weight: 700;
+  font-size: 15px;
+}
