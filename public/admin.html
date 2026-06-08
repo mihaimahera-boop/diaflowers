@@ -7,9 +7,15 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <script>
+  if (localStorage.getItem("diaflowersAdmin") !== "true") {
+    window.location.href = "login.html";
+  }
+</script>
   <header class="admin-header">
     <div class="logo">🌸 Admin Florărie</div>
     <a href="index.html">Înapoi la magazin</a>
+    <button onclick="logoutAdmin()">Logout</button>
   </header>
   <main class="admin-layout">
     <section class="panel">

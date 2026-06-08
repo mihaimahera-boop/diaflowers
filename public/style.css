@@ -731,3 +731,46 @@ footer{
   border-radius:16px;
   margin-bottom:12px;
 }
+.login-page{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(135deg,#fff8fa,#ffe8f0);
+}
+
+.login-box{
+  width:min(420px,90%);
+  background:white;
+  padding:35px;
+  border-radius:28px;
+  box-shadow:0 20px 60px rgba(80,20,45,.12);
+  display:grid;
+  gap:16px;
+}
+
+.login-box h1{
+  font-family:Georgia,serif;
+  color:#c94f70;
+  text-align:center;
+}
+
+.login-box input{
+  border:1px solid #efc5d4;
+  border-radius:16px;
+  padding:15px;
+}
+
+.login-box button{
+  background:linear-gradient(135deg,#cf4774,#e11d72);
+  color:white;
+  border-radius:999px;
+  padding:15px;
+  font-weight:900;
+}
+
+#loginError{
+  color:#dc2626;
+  font-weight:800;
+  text-align:center;
+}

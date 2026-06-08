@@ -180,5 +180,8 @@ async function updateStatus(id, status) {
 
   loadAdmin();
 }
-
+function logoutAdmin() {
+  localStorage.removeItem("diaflowersAdmin");
+  window.location.href = "login.html";
+}
 loadAdmin();
