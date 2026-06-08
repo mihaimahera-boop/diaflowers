@@ -13,6 +13,7 @@ const WHATSAPP_PHONE = "40764699342"; // pune aici numărul Dia Flowers, ex: 407
 
 let products = [];
 let cart = JSON.parse(localStorage.getItem("flowerCart") || "[]");
+let currentCategory = "toate";
 
 const lei = (n) => `${Number(n || 0).toLocaleString("ro-RO")} lei`;
 const saveCart = () => localStorage.setItem("flowerCart", JSON.stringify(cart));
@@ -28,12 +29,18 @@ async function loadProducts() {
 function renderProducts() {
   const q = (searchInput.value || "").toLowerCase();
 
-  const filtered = products.filter((p) =>
-    [p.name, p.category, p.description]
-      .join(" ")
-      .toLowerCase()
-      .includes(q)
-  );
+  const filtered = products.filter((p) => {
+  const matchesSearch = [p.name, p.category, p.description]
+    .join(" ")
+    .toLowerCase()
+    .includes(q);
+
+  const matchesCategory =
+    currentCategory === "toate" ||
+    p.category === currentCategory;
+
+  return matchesSearch && matchesCategory;
+});
 
   productsGrid.innerHTML = filtered
     .map(
@@ -220,5 +227,18 @@ checkoutForm.addEventListener("submit", async (e) => {
 cartBtn.onclick = () => cartDrawer.classList.remove("hidden");
 closeCart.onclick = () => cartDrawer.classList.add("hidden");
 searchInput.oninput = renderProducts;
+document.querySelectorAll(".category-btn").forEach((btn) => {
+  btn.addEventListener("click", () => {
 
+    document
+      .querySelectorAll(".category-btn")
+      .forEach((b) => b.classList.remove("active"));
+
+    btn.classList.add("active");
+
+    currentCategory = btn.dataset.category;
+
+    renderProducts();
+  });
+});
 loadProducts();
