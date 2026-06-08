@@ -580,8 +580,8 @@ footer{
   position:fixed;
   right:25px;
   bottom:25px;
-  width:65px;
-  height:65px;
+  width:55px;
+  height:55px;
   border-radius:50%;
   background:#25D366;
   color:white;
@@ -591,4 +591,133 @@ footer{
   font-size:32px;
   z-index:9999;
   box-shadow:0 10px 30px rgba(0,0,0,.25);
+}
+/* ==================================
+   MOBILE RESPONSIVE
+================================== */
+
+@media (max-width: 900px){
+
+    .header{
+        padding:15px 20px;
+    }
+
+    .logo img{
+        height:70px;
+        width:auto;
+    }
+
+    .nav{
+        gap:15px;
+        font-size:14px;
+    }
+
+    .hero{
+        grid-template-columns:1fr;
+        gap:40px;
+        padding:50px 20px;
+        text-align:center;
+    }
+
+    .hero h1{
+        font-size:54px;
+        line-height:1.05;
+    }
+
+    .hero p{
+        font-size:18px;
+        max-width:100%;
+    }
+
+    .hero-products{
+        justify-content:center;
+        flex-wrap:wrap;
+    }
+
+    .features{
+        grid-template-columns:1fr 1fr;
+        gap:15px;
+    }
+
+    .products-grid{
+        grid-template-columns:repeat(2,1fr);
+        gap:20px;
+    }
+
+    .footer-grid{
+        grid-template-columns:1fr;
+        text-align:center;
+    }
+}
+
+@media (max-width:600px){
+
+    .top-bar{
+        display:none;
+    }
+
+    .header{
+        flex-direction:column;
+        gap:20px;
+        padding:20px;
+    }
+
+    .logo img{
+        height:70px;
+    }
+
+    .nav{
+        flex-wrap:wrap;
+        justify-content:center;
+        gap:15px;
+    }
+
+    .hero{
+        padding:40px 15px;
+    }
+
+    .hero h1{
+    font-size:34px;
+    line-height:1.1;
+}
+
+    .hero p{
+        font-size:17px;
+    }
+
+    .hero-products{
+        flex-direction:column;
+        align-items:center;
+    }
+
+    .product-preview{
+        width:100%;
+        max-width:320px;
+    }
+
+    .features{
+        grid-template-columns:1fr;
+    }
+
+    .products-grid{
+        grid-template-columns:1fr;
+    }
+
+    .product-card{
+    max-width:none;
+    width:100%;
+}
+
+    .search-bar{
+        width:100%;
+    }
+
+    .cart-btn{
+        width:100%;
+        justify-content:center;
+    }
+
+    .checkout-form{
+        grid-template-columns:1fr;
+    }
 }
