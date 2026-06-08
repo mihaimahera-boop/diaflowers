@@ -1,0 +1,38 @@
+[
+  {
+    "id": "p1",
+    "name": "Buchet Trandafiri Roșii",
+    "category": "Buchete",
+    "price": 189,
+    "stock": 12,
+    "image": "https://images.unsplash.com/photo-1518895949257-7621c3c786d7?auto=format&fit=crop&w=900&q=80",
+    "description": "Buchet elegant cu trandafiri roșii premium."
+  },
+  {
+    "id": "p2",
+    "name": "Buchet Pastel",
+    "category": "Buchete",
+    "price": 149,
+    "stock": 8,
+    "image": "https://images.unsplash.com/photo-1561181286-d3fee7d55364?auto=format&fit=crop&w=900&q=80",
+    "description": "Flori delicate în nuanțe pastel, potrivite pentru aniversări."
+  },
+  {
+    "id": "p3",
+    "name": "Aranjament Cutie Luxury",
+    "category": "Aranjamente",
+    "price": 249,
+    "stock": 5,
+    "image": "https://images.unsplash.com/photo-1526047932273-341f2a7631f9?auto=format&fit=crop&w=900&q=80",
+    "description": "Aranjament floral în cutie premium."
+  },
+  {
+    "id": "p4",
+    "name": "Orhidee Albă",
+    "category": "Plante",
+    "price": 119,
+    "stock": 10,
+    "image": "https://images.unsplash.com/photo-1512428813834-c702c7702b78?auto=format&fit=crop&w=900&q=80",
+    "description": "Orhidee albă în ghiveci, elegantă și ușor de întreținut."
+  }
+]

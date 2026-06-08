@@ -1,0 +1,91 @@
+const express = require('express');
+const fs = require('fs');
+const path = require('path');
+const cors = require('cors');
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+const DATA_DIR = path.join(__dirname, 'data');
+const PRODUCTS_FILE = path.join(DATA_DIR, 'products.json');
+const ORDERS_FILE = path.join(DATA_DIR, 'orders.json');
+
+app.use(cors());
+app.use(express.json({ limit: '1mb' }));
+app.use(express.static(path.join(__dirname, 'public')));
+
+function ensureFiles() {
+  if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR);
+  if (!fs.existsSync(PRODUCTS_FILE)) {
+    fs.writeFileSync(PRODUCTS_FILE, JSON.stringify([
+      { id: 'p1', name: 'Buchet Trandafiri Roșii', category: 'Buchete', price: 189, stock: 12, image: 'https://images.unsplash.com/photo-1518895949257-7621c3c786d7?auto=format&fit=crop&w=900&q=80', description: 'Buchet elegant cu trandafiri roșii premium.' },
+      { id: 'p2', name: 'Buchet Pastel', category: 'Buchete', price: 149, stock: 8, image: 'https://images.unsplash.com/photo-1561181286-d3fee7d55364?auto=format&fit=crop&w=900&q=80', description: 'Flori delicate în nuanțe pastel, potrivite pentru aniversări.' },
+      { id: 'p3', name: 'Aranjament Cutie Luxury', category: 'Aranjamente', price: 249, stock: 5, image: 'https://images.unsplash.com/photo-1526047932273-341f2a7631f9?auto=format&fit=crop&w=900&q=80', description: 'Aranjament floral în cutie premium.' },
+      { id: 'p4', name: 'Orhidee Albă', category: 'Plante', price: 119, stock: 10, image: 'https://images.unsplash.com/photo-1512428813834-c702c7702b78?auto=format&fit=crop&w=900&q=80', description: 'Orhidee albă în ghiveci, elegantă și ușor de întreținut.' }
+    ], null, 2));
+  }
+  if (!fs.existsSync(ORDERS_FILE)) fs.writeFileSync(ORDERS_FILE, JSON.stringify([], null, 2));
+}
+function readJson(file) { return JSON.parse(fs.readFileSync(file, 'utf8')); }
+function writeJson(file, data) { fs.writeFileSync(file, JSON.stringify(data, null, 2)); }
+function makeId(prefix) { return `${prefix}_${Date.now()}_${Math.random().toString(16).slice(2, 8)}`; }
+
+ensureFiles();
+
+app.get('/api/products', (req, res) => res.json(readJson(PRODUCTS_FILE)));
+
+app.post('/api/products', (req, res) => {
+  const { name, category, price, stock, image, description } = req.body;
+  if (!name || !category || Number(price) <= 0) return res.status(400).json({ error: 'Date produs incomplete.' });
+  const products = readJson(PRODUCTS_FILE);
+  const product = { id: makeId('p'), name, category, price: Number(price), stock: Number(stock || 0), image: image || '', description: description || '' };
+  products.unshift(product);
+  writeJson(PRODUCTS_FILE, products);
+  res.status(201).json(product);
+});
+
+app.put('/api/products/:id', (req, res) => {
+  const products = readJson(PRODUCTS_FILE);
+  const idx = products.findIndex(p => p.id === req.params.id);
+  if (idx === -1) return res.status(404).json({ error: 'Produs negăsit.' });
+  products[idx] = { ...products[idx], ...req.body, price: Number(req.body.price), stock: Number(req.body.stock) };
+  writeJson(PRODUCTS_FILE, products);
+  res.json(products[idx]);
+});
+
+app.delete('/api/products/:id', (req, res) => {
+  const products = readJson(PRODUCTS_FILE).filter(p => p.id !== req.params.id);
+  writeJson(PRODUCTS_FILE, products);
+  res.json({ ok: true });
+});
+
+app.get('/api/orders', (req, res) => res.json(readJson(ORDERS_FILE)));
+
+app.post('/api/orders', (req, res) => {
+  const { customer, items, delivery, notes } = req.body;
+  if (!customer?.name || !customer?.phone || !items?.length) return res.status(400).json({ error: 'Comanda este incompletă.' });
+  const products = readJson(PRODUCTS_FILE);
+  let total = 0;
+  const orderItems = items.map(item => {
+    const product = products.find(p => p.id === item.id);
+    if (!product) throw new Error('Produs invalid');
+    const qty = Math.max(1, Number(item.qty || 1));
+    total += product.price * qty;
+    return { id: product.id, name: product.name, price: product.price, qty };
+  });
+  const orders = readJson(ORDERS_FILE);
+  const order = { id: makeId('o'), createdAt: new Date().toISOString(), status: 'Nouă', customer, delivery, notes: notes || '', items: orderItems, total };
+  orders.unshift(order);
+  writeJson(ORDERS_FILE, orders);
+  res.status(201).json(order);
+});
+
+app.patch('/api/orders/:id/status', (req, res) => {
+  const orders = readJson(ORDERS_FILE);
+  const order = orders.find(o => o.id === req.params.id);
+  if (!order) return res.status(404).json({ error: 'Comandă negăsită.' });
+  order.status = req.body.status || order.status;
+  writeJson(ORDERS_FILE, orders);
+  res.json(order);
+});
+
+app.listen(PORT, () => console.log(`Floraria online rulează pe http://localhost:${PORT}`));

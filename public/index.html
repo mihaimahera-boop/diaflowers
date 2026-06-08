@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="ro">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dia Flowers | Flori care transmit emoții</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+<header class="site-header">
+  <div class="top-strip">
+    <span>🚚 Livrare flori în aceeași zi</span>
+    <span>💐 Flori proaspete, alese cu grijă</span>
+    <span>☎ 07xx xxx xxx</span>
+  </div>
+
+  <nav class="main-nav">
+    <a class="logo" href="index.html">
+  <img src="./images/logo-dia-flowers-header.png" alt="Dia Flowers" class="logo-img">
+</a>
+
+    <div class="nav-actions">
+      <a href="#shop">Magazin</a>
+      <a href="#shop">Buchete</a>
+      <a href="#checkout">Checkout</a>
+      <a href="admin.html">Admin</a>
+      <button id="cartBtn">Coș <span id="cartCount">0</span></button>
+    </div>
+  </nav>
+</header>
+
+<main>
+
+  <section class="hero-premium">
+    <div class="hero-text">
+      <p class="badge">🌸 Florărie online premium</p>
+      <h1>Flori care transmit emoții</h1>
+      <p>Buchete elegante, create cu grijă pentru persoanele importante din viața ta.</p>
+      <a class="cta" href="#shop">Comandă acum</a>
+    </div>
+
+    <div class="hero-products">
+      <div class="hero-product">
+        <img src="https://images.unsplash.com/photo-1563241527-3004b7be0ffd?auto=format&fit=crop&w=800&q=90">
+        <h3>Buchet Romantic</h3>
+        <span>249 lei</span>
+      </div>
+
+      <div class="hero-product big">
+        <img src="https://images.unsplash.com/photo-1526047932273-341f2a7631f9?auto=format&fit=crop&w=800&q=90">
+        <h3>Buchet Premium</h3>
+        <span>299 lei</span>
+      </div>
+
+      <div class="hero-product">
+        <img src="https://images.unsplash.com/photo-1519378058457-4c29a0a2efac?auto=format&fit=crop&w=800&q=90">
+        <h3>Buchet Deluxe</h3>
+        <span>349 lei</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="features">
+    <div>🚚 Livrare rapidă</div>
+    <div>💐 Flori proaspete</div>
+    <div>🎁 Mesaj cadou</div>
+    <div>📞 Confirmare telefonică</div>
+  </section>
+
+  <section id="shop" class="section">
+    <div class="section-title">
+      <h2>Produse disponibile</h2>
+      <input id="searchInput" placeholder="Caută buchet, trandafiri, orhidee..." />
+    </div>
+
+    <div id="productsGrid" class="grid"></div>
+  </section>
+
+  <aside id="cartDrawer" class="cart-drawer hidden">
+    <div class="cart-head">
+      <h2>Coșul tău</h2>
+      <button id="closeCart">×</button>
+    </div>
+
+    <div id="cartItems"></div>
+    <div class="cart-total">Total: <strong id="cartTotal">0 lei</strong></div>
+    <a class="checkout-link" href="#checkout">Finalizează comanda</a>
+  </aside>
+
+  <section id="checkout" class="section checkout">
+    <h2>Finalizează comanda</h2>
+
+    <form id="checkoutForm" class="checkout-form">
+      <input name="name" placeholder="Nume complet" required />
+      <input name="phone" placeholder="Telefon" required />
+      <input name="email" type="email" placeholder="Email" />
+      <input name="address" placeholder="Adresă livrare" required />
+      <input name="date" type="date" required />
+      <input name="time" type="time" required />
+      <textarea name="message" placeholder="Mesaj pe felicitare / observații"></textarea>
+      <button type="submit">Trimite comanda</button>
+    </form>
+
+    <p id="orderMessage"></p>
+  </section>
+
+</main>
+
+<footer>
+  <strong>Dia Flowers</strong> · Flori care transmit emoții · Telefon: 07xx xxx xxx
+</footer>
+
+<script src="app.js"></script>
+<a
+  href="https://wa.me/407xxxxxxxx"
+  class="whatsapp-btn"
+  target="_blank"
+>
+  💬
+</a>
+</body>
+</html>

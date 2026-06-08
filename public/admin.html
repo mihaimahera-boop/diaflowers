@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ro">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin | Florăria Mihai</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="admin-header">
+    <div class="logo">🌸 Admin Florărie</div>
+    <a href="index.html">Înapoi la magazin</a>
+  </header>
+  <main class="admin-layout">
+    <section class="panel">
+      <h2>Adaugă produs</h2>
+      <form id="productForm" class="admin-form">
+        <input name="name" placeholder="Nume produs" required />
+        <input name="category" placeholder="Categorie" required />
+        <input name="price" type="number" placeholder="Preț" required />
+        <input name="stock" type="number" placeholder="Stoc" value="1" />
+        <input name="image" placeholder="Link imagine" />
+        <textarea name="description" placeholder="Descriere"></textarea>
+        <button>Salvează produs</button>
+      </form>
+    </section>
+    <section class="panel">
+      <h2>Produse</h2>
+      <div id="adminProducts"></div>
+    </section>
+    <section class="panel orders-panel">
+      <h2>Comenzi</h2>
+      <div id="ordersList"></div>
+    </section>
+  </main>
+  <script src="admin.js"></script>
+</body>
+</html>
