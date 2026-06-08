@@ -22,9 +22,14 @@ function renderProducts() {
         (p) => `
         <div class="admin-product">
           ${p.image ? `<img src="${p.image}" alt="${p.name}" class="admin-product-img">` : ""}
+
           <strong>${p.name}</strong><br>
-          ${p.category} · ${lei(p.price)} · Stoc: ${p.stock}<br>
-          <button onclick="deleteProduct('${p.id}')">Șterge</button>
+          ${p.category} · ${lei(p.price)} · Stoc: ${p.stock}
+
+          <br><br>
+
+          <button onclick="editProduct('${p.id}')">✏️ Editează</button>
+          <button onclick="deleteProduct('${p.id}')">🗑️ Șterge</button>
         </div>
       `
       )
@@ -114,6 +119,43 @@ productForm.addEventListener("submit", async (e) => {
   productForm.reset();
   loadAdmin();
 });
+
+async function editProduct(id) {
+  const product = products.find((p) => p.id === id);
+  if (!product) return;
+
+  const name = prompt("Nume produs:", product.name);
+  if (name === null) return;
+
+  const category = prompt("Categorie:", product.category);
+  if (category === null) return;
+
+  const price = prompt("Preț:", product.price);
+  if (price === null) return;
+
+  const stock = prompt("Stoc:", product.stock);
+  if (stock === null) return;
+
+  const description = prompt("Descriere:", product.description || "");
+  if (description === null) return;
+
+  await fetch(`/api/products/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      name,
+      category,
+      price,
+      stock,
+      description,
+      image: product.image,
+    }),
+  });
+
+  loadAdmin();
+}
 
 async function deleteProduct(id) {
   if (!confirm("Ștergi produsul?")) return;
