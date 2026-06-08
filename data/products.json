@@ -1,28 +1,5 @@
 [
   {
-    "id": "p_1780925649431_7f43a9",
-    "name": "coca cola",
-    "category": "Buchete",
-    "price": 12,
-    "stock": 1,
-    "image": "/images/products/1780925649397-logo-dia-flowers4.png",
-    "images": [
-      "/images/products/1780925649397-logo-dia-flowers4.png",
-      "/images/products/1780925649402-logo-dia-flowers3.png",
-      "/images/products/1780925649407-logo-dia-flowers2.png"
-    ],
-    "description": ""
-  },
-  {
-    "id": "p_1780925208499_a66d97",
-    "name": "frezii",
-    "category": "Buchete",
-    "price": 12,
-    "stock": 1,
-    "image": "/images/products/1780925208475-logo-dia-flowers4.png",
-    "description": ""
-  },
-  {
     "id": "p_1780918334123_ceb142",
     "name": "Buchet Lalele",
     "category": "Buchete",
