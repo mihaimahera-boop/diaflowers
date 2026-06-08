@@ -1,6 +1,7 @@
 const productForm = document.getElementById("productForm");
 const adminProducts = document.getElementById("adminProducts");
 const ordersList = document.getElementById("ordersList");
+
 const totalOrders = document.getElementById("totalOrders");
 const newOrders = document.getElementById("newOrders");
 const totalSales = document.getElementById("totalSales");
@@ -9,92 +10,92 @@ const lei = (n) => `${Number(n || 0).toLocaleString("ro-RO")} lei`;
 
 let products = [];
 let orders = [];
-function renderStats() {
-  totalOrders.textContent = orders.length;
 
-  newOrders.textContent = orders.filter(
-    (order) => order.status === "Nouă"
-  ).length;
-
-  const sales = orders
-    .filter((order) => order.status !== "Anulată")
-    .reduce((sum, order) => sum + Number(order.total || 0), 0);
-
-  totalSales.textContent = lei(sales);
-}
 async function loadAdmin() {
   products = await (await fetch("/api/products")).json();
   orders = await (await fetch("/api/orders")).json();
 
+  renderStats();
   renderProducts();
   renderOrders();
-  renderStats();
+}
+
+function renderStats() {
+  if (!totalOrders || !newOrders || !totalSales) return;
+
+  totalOrders.textContent = orders.length;
+  newOrders.textContent = orders.filter((o) => o.status === "Nouă").length;
+
+  const sales = orders
+    .filter((o) => o.status !== "Anulată")
+    .reduce((sum, o) => sum + Number(o.total || 0), 0);
+
+  totalSales.textContent = lei(sales);
 }
 
 function renderProducts() {
   adminProducts.innerHTML =
-    products
-      .map(
-        (p) => `
-        <div class="admin-product">
-          ${p.image ? `<img src="${p.image}" alt="${p.name}" class="admin-product-img">` : ""}
+    products.map((p) => `
+      <div class="admin-product">
+        ${p.image ? `<img src="${p.image}" alt="${p.name}" class="admin-product-img">` : ""}
 
-          <strong>${p.name}</strong><br>
-          ${p.category} · ${lei(p.price)} · Stoc: ${p.stock}
+        <strong>${p.name}</strong><br>
+        ${p.category} · ${lei(p.price)} · Stoc: ${p.stock}
 
-          <br><br>
+        <br><br>
 
-          <button onclick="editProduct('${p.id}')">✏️ Editează</button>
-          <button onclick="deleteProduct('${p.id}')">🗑️ Șterge</button>
-        </div>
-      `
-      )
-      .join("") || "<p>Nu există produse.</p>";
+        <button onclick="editProduct('${p.id}')">✏️ Editează</button>
+        <button onclick="deleteProduct('${p.id}')">🗑️ Șterge</button>
+      </div>
+    `).join("") || "<p>Nu există produse.</p>";
 }
 
 function renderOrders() {
   ordersList.innerHTML =
-    orders
-      .map(
-        (o) => `
-        <div class="order">
-          <div class="order-head">
-            <strong>${o.customer.name} · ${o.customer.phone}</strong>
-            <span class="status">${o.status}</span>
-          </div>
-
-          <p><b>Livrare:</b> ${o.delivery.address}, ${o.delivery.date} ${o.delivery.time}</p>
-          <p><b>Produse:</b> ${o.items.map((i) => `${i.name} x ${i.qty}`).join(", ")}</p>
-          <p><b>Total:</b> ${lei(o.total)}</p>
-          <p>${o.notes || ""}</p>
-
-          <select onchange="updateStatus('${o.id}', this.value)">
-            <option>Schimbă status</option>
-            <option>Nouă</option>
-            <option>Confirmată</option>
-            <option>În lucru</option>
-            <option>Livrată</option>
-            <option>Anulată</option>
-          </select>
+    orders.map((o) => `
+      <div class="order">
+        <div class="order-head">
+          <strong>${o.customer.name} · ${o.customer.phone}</strong>
+          <span class="status">${o.status}</span>
         </div>
-      `
-      )
-      .join("") || "<p>Nu există comenzi încă.</p>";
+
+        <p><b>Livrare:</b> ${o.delivery.address}, ${o.delivery.date} ${o.delivery.time}</p>
+        <p><b>Produse:</b> ${o.items.map((i) => `${i.name} x ${i.qty}`).join(", ")}</p>
+        <p><b>Total:</b> ${lei(o.total)}</p>
+        <p>${o.notes || ""}</p>
+
+        <select onchange="updateStatus('${o.id}', this.value)">
+          <option>Schimbă status</option>
+          <option>Nouă</option>
+          <option>Confirmată</option>
+          <option>În lucru</option>
+          <option>Livrată</option>
+          <option>Anulată</option>
+        </select>
+      </div>
+    `).join("") || "<p>Nu există comenzi încă.</p>";
 }
 
 productForm.addEventListener("submit", async (e) => {
   e.preventDefault();
 
   const formData = new FormData(productForm);
+
   let imageUrl = "";
+  let images = [];
 
-  const imageFile = formData.get("imageFile");
+  const imageFiles = formData
+    .getAll("imageFile")
+    .filter((file) => file.size > 0);
 
-  if (imageFile && imageFile.size > 0) {
+  if (imageFiles.length > 0) {
     const uploadData = new FormData();
-    uploadData.append("image", imageFile);
 
-    const uploadRes = await fetch("/api/upload", {
+    imageFiles.forEach((file) => {
+      uploadData.append("images", file);
+    });
+
+    const uploadRes = await fetch("/api/upload-multiple", {
       method: "POST",
       body: uploadData,
     });
@@ -102,11 +103,12 @@ productForm.addEventListener("submit", async (e) => {
     const uploadResult = await uploadRes.json();
 
     if (!uploadRes.ok) {
-      alert(uploadResult.error || "Eroare la încărcarea imaginii.");
+      alert(uploadResult.error || "Eroare la încărcarea imaginilor.");
       return;
     }
 
-    imageUrl = uploadResult.imageUrl;
+    images = uploadResult.imageUrls;
+    imageUrl = images[0];
   }
 
   const product = {
@@ -115,6 +117,7 @@ productForm.addEventListener("submit", async (e) => {
     price: formData.get("price"),
     stock: formData.get("stock"),
     image: imageUrl,
+    images,
     description: formData.get("description"),
   };
 
@@ -167,6 +170,7 @@ async function editProduct(id) {
       stock,
       description,
       image: product.image,
+      images: product.images || [],
     }),
   });
 
@@ -196,8 +200,10 @@ async function updateStatus(id, status) {
 
   loadAdmin();
 }
+
 function logoutAdmin() {
   localStorage.removeItem("diaflowersAdmin");
   window.location.href = "login.html";
 }
+
 loadAdmin();

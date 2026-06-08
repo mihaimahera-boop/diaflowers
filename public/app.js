@@ -46,7 +46,11 @@ function renderProducts() {
     .map(
       (p) => `
       <article class="product-card">
-        <img src="${p.image || "https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=900&q=80"}" alt="${p.name}">
+        <img
+  src="${p.image || p.images?.[0] || "https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=900&q=80"}"
+  alt="${p.name}"
+  onclick="openGallery('${p.id}')"
+/>
         <div class="product-body">
           <span class="category">${p.category}</span>
           <h3>${p.name}</h3>
@@ -241,4 +245,33 @@ document.querySelectorAll(".category-btn").forEach((btn) => {
     renderProducts();
   });
 });
+function openGallery(id) {
+  const product = products.find((p) => p.id === id);
+  if (!product) return;
+
+  const images = product.images?.length ? product.images : [product.image];
+
+  const galleryHtml = `
+    <div class="gallery-modal" onclick="closeGallery()">
+      <div class="gallery-box" onclick="event.stopPropagation()">
+        <button class="gallery-close" onclick="closeGallery()">×</button>
+        <h2>${product.name}</h2>
+
+        <div class="gallery-grid">
+          ${images
+            .filter(Boolean)
+            .map((img) => `<img src="${img}" alt="${product.name}">`)
+            .join("")}
+        </div>
+      </div>
+    </div>
+  `;
+
+  document.body.insertAdjacentHTML("beforeend", galleryHtml);
+}
+
+function closeGallery() {
+  const modal = document.querySelector(".gallery-modal");
+  if (modal) modal.remove();
+}
 loadProducts();

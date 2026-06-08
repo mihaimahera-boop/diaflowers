@@ -165,7 +165,7 @@ app.get("/api/products", (req, res) => {
 });
 
 app.post("/api/products", (req, res) => {
-  const { name, category, price, stock, image, description } = req.body;
+  const { name, category, price, stock, image, images, description } = req.body;
 
   if (!name || !category || Number(price) <= 0) {
     return res.status(400).json({ error: "Date produs incomplete." });
@@ -174,14 +174,15 @@ app.post("/api/products", (req, res) => {
   const products = readJson(PRODUCTS_FILE);
 
   const product = {
-    id: makeId("p"),
-    name,
-    category,
-    price: Number(price),
-    stock: Number(stock || 0),
-    image: image || "",
-    description: description || "",
-  };
+  id: makeId("p"),
+  name,
+  category,
+  price: Number(price),
+  stock: Number(stock || 0),
+  image: image || "",
+  images: Array.isArray(images) ? images : [],
+  description: description || "",
+};
 
   products.unshift(product);
   writeJson(PRODUCTS_FILE, products);
@@ -299,7 +300,21 @@ app.post("/api/upload", upload.single("image"), (req, res) => {
     imageUrl: `/images/products/${req.file.filename}`,
   });
 });
+app.post("/api/upload-multiple", upload.array("images", 10), (req, res) => {
+  if (!req.files || !req.files.length) {
+    return res.status(400).json({
+      error: "Nu ai selectat imagini.",
+    });
+  }
 
+  const imageUrls = req.files.map((file) => {
+    return `/images/products/${file.filename}`;
+  });
+
+  res.json({
+    imageUrls,
+  });
+});
 app.listen(PORT, () => {
   console.log(`Floraria online rulează pe http://localhost:${PORT}`);
 });
