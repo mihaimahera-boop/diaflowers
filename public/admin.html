@@ -18,6 +18,22 @@
     <button onclick="logoutAdmin()">Logout</button>
   </header>
   <main class="admin-layout">
+    <section class="admin-stats">
+  <div class="stat-card">
+    <span>Comenzi totale</span>
+    <strong id="totalOrders">0</strong>
+  </div>
+
+  <div class="stat-card">
+    <span>Comenzi noi</span>
+    <strong id="newOrders">0</strong>
+  </div>
+
+  <div class="stat-card">
+    <span>Vânzări totale</span>
+    <strong id="totalSales">0 lei</strong>
+  </div>
+</section>
     <section class="panel">
       <h2>Adaugă produs</h2>
       <form id="productForm" class="admin-form">

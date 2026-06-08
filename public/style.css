@@ -774,3 +774,35 @@ footer{
   font-weight:800;
   text-align:center;
 }
+.admin-stats{
+  grid-column:1/-1;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:20px;
+}
+
+.stat-card{
+  background:white;
+  border-radius:24px;
+  padding:25px;
+  box-shadow:0 18px 45px rgba(80,20,45,.08);
+  border:1px solid #f6dce7;
+}
+
+.stat-card span{
+  display:block;
+  color:#7a3a5a;
+  font-weight:800;
+  margin-bottom:10px;
+}
+
+.stat-card strong{
+  font-size:34px;
+  color:#e11d72;
+}
+
+@media(max-width:750px){
+  .admin-stats{
+    grid-template-columns:1fr;
+  }
+}

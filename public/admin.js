@@ -1,18 +1,34 @@
 const productForm = document.getElementById("productForm");
 const adminProducts = document.getElementById("adminProducts");
 const ordersList = document.getElementById("ordersList");
+const totalOrders = document.getElementById("totalOrders");
+const newOrders = document.getElementById("newOrders");
+const totalSales = document.getElementById("totalSales");
 
 const lei = (n) => `${Number(n || 0).toLocaleString("ro-RO")} lei`;
 
 let products = [];
 let orders = [];
+function renderStats() {
+  totalOrders.textContent = orders.length;
 
+  newOrders.textContent = orders.filter(
+    (order) => order.status === "Nouă"
+  ).length;
+
+  const sales = orders
+    .filter((order) => order.status !== "Anulată")
+    .reduce((sum, order) => sum + Number(order.total || 0), 0);
+
+  totalSales.textContent = lei(sales);
+}
 async function loadAdmin() {
   products = await (await fetch("/api/products")).json();
   orders = await (await fetch("/api/orders")).json();
 
   renderProducts();
   renderOrders();
+  renderStats();
 }
 
 function renderProducts() {
