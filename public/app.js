@@ -51,6 +51,9 @@ function renderProducts() {
   alt="${p.name}"
   onclick="openGallery('${p.id}')"
 />
+${p.images && p.images.length > 1
+  ? `<div class="gallery-badge">📸 ${p.images.length} poze</div>`
+  : ""}
         <div class="product-body">
           <span class="category">${p.category}</span>
           <h3>${p.name}</h3>
