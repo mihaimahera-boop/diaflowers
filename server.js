@@ -9,6 +9,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 const DATA_DIR = path.join(__dirname, "data");
+const BACKUP_DIR = path.join(__dirname, "backups");
 const PRODUCTS_FILE = path.join(DATA_DIR, "products.json");
 const ORDERS_FILE = path.join(DATA_DIR, "orders.json");
 
@@ -40,6 +41,7 @@ const mailTransporter = nodemailer.createTransport({
 
 function ensureFiles() {
   if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR);
+  if (!fs.existsSync(BACKUP_DIR)) fs.mkdirSync(BACKUP_DIR);
 
   if (!fs.existsSync(PRODUCTS_FILE)) {
     fs.writeFileSync(
@@ -314,6 +316,30 @@ app.post("/api/upload-multiple", upload.array("images", 10), (req, res) => {
   res.json({
     imageUrls,
   });
+});
+app.get("/api/backup", (req, res) => {
+  const backup = {
+    createdAt: new Date().toISOString(),
+    products: readJson(PRODUCTS_FILE),
+    orders: readJson(ORDERS_FILE),
+  };
+
+  res.json(backup);
+});
+
+app.get("/api/backup/download", (req, res) => {
+  const backup = {
+    createdAt: new Date().toISOString(),
+    products: readJson(PRODUCTS_FILE),
+    orders: readJson(ORDERS_FILE),
+  };
+
+  const fileName = `diaflowers-backup-${Date.now()}.json`;
+  const filePath = path.join(BACKUP_DIR, fileName);
+
+  fs.writeFileSync(filePath, JSON.stringify(backup, null, 2));
+
+  res.download(filePath);
 });
 app.listen(PORT, () => {
   console.log(`Floraria online rulează pe http://localhost:${PORT}`);
