@@ -915,3 +915,31 @@ footer{
   font-size:12px;
   font-weight:700;
 }
+.gallery-main-image {
+  width: 100%;
+  max-height: 450px;
+  object-fit: cover;
+  border-radius: 16px;
+}
+
+.gallery-thumbs {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+  flex-wrap: wrap;
+}
+
+.gallery-thumb {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 12px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: 0.2s;
+}
+
+.gallery-thumb:hover {
+  border-color: #e91e63;
+  transform: scale(1.05);
+}

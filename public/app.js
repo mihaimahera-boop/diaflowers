@@ -252,20 +252,42 @@ function openGallery(id) {
   const product = products.find((p) => p.id === id);
   if (!product) return;
 
-  const images = product.images?.length ? product.images : [product.image];
+  const images = product.images?.length
+    ? product.images
+    : [product.image];
+
+  let currentImage = images[0];
 
   const galleryHtml = `
     <div class="gallery-modal" onclick="closeGallery()">
       <div class="gallery-box" onclick="event.stopPropagation()">
+
         <button class="gallery-close" onclick="closeGallery()">×</button>
+
         <h2>${product.name}</h2>
 
-        <div class="gallery-grid">
+        <img
+          id="mainGalleryImage"
+          class="gallery-main-image"
+          src="${currentImage}"
+          alt="${product.name}"
+        >
+
+        <div class="gallery-thumbs">
           ${images
             .filter(Boolean)
-            .map((img) => `<img src="${img}" alt="${product.name}">`)
+            .map(
+              (img) => `
+                <img
+                  src="${img}"
+                  class="gallery-thumb"
+                  onclick="changeGalleryImage('${img}')"
+                >
+              `
+            )
             .join("")}
         </div>
+
       </div>
     </div>
   `;
@@ -276,5 +298,12 @@ function openGallery(id) {
 function closeGallery() {
   const modal = document.querySelector(".gallery-modal");
   if (modal) modal.remove();
+}
+function changeGalleryImage(src) {
+  const img = document.getElementById("mainGalleryImage");
+
+  if (img) {
+    img.src = src;
+  }
 }
 loadProducts();

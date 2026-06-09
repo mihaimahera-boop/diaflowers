@@ -1,5 +1,20 @@
 [
   {
+    "id": "p_1781012318054_21b8a9",
+    "name": "frezi",
+    "category": "Buchete",
+    "price": 1,
+    "stock": 1,
+    "image": "/images/products/1781012317985-logo-dia-flowers7.png",
+    "images": [
+      "/images/products/1781012317985-logo-dia-flowers7.png",
+      "/images/products/1781012317991-logo-dia-flowers6.png",
+      "/images/products/1781012318019-logo-dia-flowers5.png",
+      "/images/products/1781012318025-logo-dia-flowers4.png"
+    ],
+    "description": ""
+  },
+  {
     "id": "p_1780918334123_ceb142",
     "name": "Buchet Lalele",
     "category": "Buchete",
