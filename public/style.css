@@ -943,3 +943,32 @@ footer{
   border-color: #e91e63;
   transform: scale(1.05);
 }
+.checkout-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.checkout-modal-content {
+  background: white;
+  width: 90%;
+  max-width: 500px;
+  padding: 25px;
+  border-radius: 20px;
+}
+
+.modal-close {
+  float: right;
+  border: none;
+  background: none;
+  font-size: 28px;
+  cursor: pointer;
+}
+
+.hidden {
+  display: none;
+}

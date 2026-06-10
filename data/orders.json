@@ -1,1 +1,94 @@
-[]
+[
+  {
+    "id": "o_1781096871455_bfd40c",
+    "createdAt": "2026-06-10T13:07:51.455Z",
+    "status": "Nouă",
+    "customer": {
+      "name": "Mihai Mahera",
+      "phone": "0784328243",
+      "email": "mihaimahera@gmail.com"
+    },
+    "delivery": {
+      "address": "Sergent Nutu Ion nr 44, Cladirea de birouri B, Etaj 8 ( SUPERBET)"
+    },
+    "notes": "",
+    "items": [
+      {
+        "id": "p_1780918334123_ceb142",
+        "name": "Buchet Lalele",
+        "price": 70,
+        "qty": 1
+      }
+    ],
+    "total": 70
+  },
+  {
+    "id": "o_1781096853184_9e2bf8",
+    "createdAt": "2026-06-10T13:07:33.184Z",
+    "status": "Nouă",
+    "customer": {
+      "name": "Mihai Mahera",
+      "phone": "0784328243",
+      "email": "mihaimahera@gmail.com"
+    },
+    "delivery": {
+      "address": "maria rosetti nr 36 et 5 ap 20 sector 2"
+    },
+    "notes": "",
+    "items": [
+      {
+        "id": "p_1780918334123_ceb142",
+        "name": "Buchet Lalele",
+        "price": 70,
+        "qty": 1
+      }
+    ],
+    "total": 70
+  },
+  {
+    "id": "o_1781096825811_3c8236",
+    "createdAt": "2026-06-10T13:07:05.811Z",
+    "status": "Nouă",
+    "customer": {
+      "name": "Mihai Mahera",
+      "phone": "0784328243",
+      "email": "mihaimahera@gmail.com"
+    },
+    "delivery": {
+      "address": "maria rosetti nr 36 et 5 ap 20 sector 2"
+    },
+    "notes": "",
+    "items": [
+      {
+        "id": "p_1781012318054_21b8a9",
+        "name": "frezi",
+        "price": 1,
+        "qty": 1
+      }
+    ],
+    "total": 1
+  },
+  {
+    "id": "o_1781095598451_a61faa",
+    "createdAt": "2026-06-10T12:46:38.451Z",
+    "status": "Nouă",
+    "customer": {
+      "name": "Mihai Mahera",
+      "phone": "0784328243",
+      "email": "mihaimahera@gmail.com"
+    },
+    "delivery": {
+      "address": "Sergent Nutu Ion nr 44, Cladirea de birouri B, Etaj 8 ( SUPERBET)"
+    },
+    "notes": "",
+    "items": [
+      {
+        "id": "p_1780918334123_ceb142",
+        "name": "Buchet Lalele",
+        "price": 70,
+        "qty": 3
+      }
+    ],
+    "total": 210
+  }
+]

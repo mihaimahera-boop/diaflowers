@@ -106,25 +106,22 @@
 
     <div id="cartItems"></div>
     <div class="cart-total">Total: <strong id="cartTotal">0 lei</strong></div>
-    <a class="checkout-link" href="#checkout">Finalizează comanda</a>
+    <button id="cartCheckoutBtn" class="checkout-link">
+  Finalizează comanda
+</button>
   </aside>
 
   <section id="checkout" class="section checkout">
-    <h2>Finalizează comanda</h2>
 
-    <form id="checkoutForm" class="checkout-form">
-      <input name="name" placeholder="Nume complet" required />
-      <input name="phone" placeholder="Telefon" required />
-      <input name="email" type="email" placeholder="Email" />
-      <input name="address" placeholder="Adresă livrare" required />
-      <input name="date" type="date" required />
-      <input name="time" type="time" required />
-      <textarea name="message" placeholder="Mesaj pe felicitare / observații"></textarea>
-      <button type="submit">Trimite comanda</button>
-    </form>
+  <h2>Finalizează comanda</h2>
 
-    <p id="orderMessage"></p>
-  </section>
+  <button id="openCheckoutBtn" class="checkout-btn">
+    Finalizează comanda
+  </button>
+
+  <p id="orderMessage"></p>
+
+</section>
 
 </main>
 
@@ -132,7 +129,6 @@
   <strong>Dia Flowers</strong> · Flori care transmit emoții · Telefon: 0764 699 342
 </footer>
 
-<script src="app.js"></script>
 <a
   href="https://wa.me/40764699342"
   class="whatsapp-btn"
@@ -140,5 +136,56 @@
 >
   💬
 </a>
+<div id="checkoutModal" class="checkout-modal hidden">
+
+  <div class="checkout-modal-content">
+
+    <button id="closeCheckoutBtn" class="modal-close">
+      ×
+    </button>
+
+    <h2>Date livrare</h2>
+
+    <form id="checkoutForm" class="checkout-form">
+
+      <input
+        name="name"
+        placeholder="Nume complet"
+        required
+      />
+
+      <input
+        name="phone"
+        placeholder="Telefon"
+        required
+      />
+
+      <input
+        name="email"
+        type="email"
+        placeholder="Email (opțional)"
+      />
+
+      <input
+        name="address"
+        placeholder="Adresă livrare"
+        required
+      />
+
+      <textarea
+        name="message"
+        placeholder="Mesaj pe felicitare / observații"
+      ></textarea>
+
+      <button type="submit">
+        Trimite comanda
+      </button>
+
+    </form>
+
+  </div>
+
+</div>
+<script src="app.js"></script>
 </body>
 </html>

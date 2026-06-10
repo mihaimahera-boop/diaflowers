@@ -22,7 +22,8 @@ const storage = multer.diskStorage({
     cb(null, path.join(__dirname, "public/images/products"));
   },
   filename: (req, file, cb) => {
-    const uniqueName = Date.now() + "-" + file.originalname.replace(/\s+/g, "-");
+    const uniqueName =
+      Date.now() + "-" + file.originalname.replace(/\s+/g, "-");
     cb(null, uniqueName);
   },
 });
@@ -66,7 +67,8 @@ function ensureFiles() {
             stock: 8,
             image:
               "https://images.unsplash.com/photo-1561181286-d3fee7d55364?auto=format&fit=crop&w=900&q=80",
-            description: "Flori delicate în nuanțe pastel, potrivite pentru aniversări.",
+            description:
+              "Flori delicate în nuanțe pastel, potrivite pentru aniversări.",
           },
           {
             id: "p3",
@@ -86,7 +88,8 @@ function ensureFiles() {
             stock: 10,
             image:
               "https://images.unsplash.com/photo-1512428813834-c702c7702b78?auto=format&fit=crop&w=900&q=80",
-            description: "Orhidee albă în ghiveci, elegantă și ușor de întreținut.",
+            description:
+              "Orhidee albă în ghiveci, elegantă și ușor de întreținut.",
           },
         ],
         null,
@@ -109,21 +112,34 @@ function writeJson(file, data) {
 }
 
 function makeId(prefix) {
-  return `${prefix}_${Date.now()}_${Math.random().toString(16).slice(2, 8)}`;
+  return `${prefix}_${Date.now()}_${Math.random()
+    .toString(16)
+    .slice(2, 8)}`;
 }
 
 function lei(n) {
   return `${Number(n || 0).toLocaleString("ro-RO")} lei`;
 }
 
+function hasEmailConfig() {
+  return (
+    process.env.SMTP_HOST &&
+    process.env.SMTP_USER &&
+    process.env.SMTP_PASS
+  );
+}
+
 async function sendOrderEmail(order) {
-  if (!process.env.SMTP_HOST || !process.env.SMTP_USER || !process.env.SMTP_PASS) {
+  if (!hasEmailConfig()) {
     console.log("Email comandă sărit: lipsesc variabilele SMTP.");
     return;
   }
 
   const productsText = order.items
-    .map((item) => `- ${item.name} x ${item.qty} = ${lei(item.price * item.qty)}`)
+    .map(
+      (item) =>
+        `- ${item.name} x ${item.qty} = ${lei(item.price * item.qty)}`
+    )
     .join("\n");
 
   const text = `
@@ -140,8 +156,6 @@ Email: ${order.customer.email || "-"}
 
 Livrare:
 Adresă: ${order.delivery.address}
-Data: ${order.delivery.date}
-Ora: ${order.delivery.time}
 
 Produse:
 ${productsText}
@@ -158,12 +172,13 @@ ${order.notes || "-"}
     subject: `Comandă nouă Dia Flowers - ${lei(order.total)}`,
     text,
   });
+
   if (order.customer.email) {
-  await mailTransporter.sendMail({
-    from: `"Dia Flowers" <${process.env.SMTP_USER}>`,
-    to: order.customer.email,
-    subject: `Confirmare comandă Dia Flowers`,
-    text: `
+    await mailTransporter.sendMail({
+      from: `"Dia Flowers" <${process.env.SMTP_USER}>`,
+      to: order.customer.email,
+      subject: "Confirmare comandă Dia Flowers",
+      text: `
 Bună, ${order.customer.name}!
 
 Îți mulțumim pentru comandă. Am primit solicitarea ta și te vom contacta telefonic pentru confirmare.
@@ -176,15 +191,60 @@ ${productsText}
 
 Livrare:
 Adresă: ${order.delivery.address}
-Data: ${order.delivery.date}
-Ora: ${order.delivery.time}
+Programarea livrării va fi stabilită telefonic.
 
 Cu drag,
 Dia Flowers
 Flori care transmit emoții
+Telefon: 0764 699 342
+`.trim(),
+    });
+  }
+}
+
+async function sendStatusEmail(order) {
+  if (!order.customer.email) return;
+
+  if (!hasEmailConfig()) {
+    console.log("Email status sărit: lipsesc variabilele SMTP.");
+    return;
+  }
+
+  let message = "";
+
+  if (order.status === "Confirmată") {
+    message = "Comanda ta a fost confirmată și va fi pregătită cu grijă.";
+  } else if (order.status === "În lucru") {
+    message = "Comanda ta este în pregătire.";
+  } else if (order.status === "Livrată") {
+    message =
+      "Comanda ta a fost livrată. Îți mulțumim că ai ales Dia Flowers!";
+  } else if (order.status === "Anulată") {
+    message =
+      "Comanda ta a fost anulată. Pentru detalii, te rugăm să ne contactezi.";
+  } else {
+    return;
+  }
+
+  await mailTransporter.sendMail({
+    from: `"Dia Flowers" <${process.env.SMTP_USER}>`,
+    to: order.customer.email,
+    subject: `Status comandă Dia Flowers: ${order.status}`,
+    text: `
+Bună, ${order.customer.name}!
+
+${message}
+
+ID comandă: ${order.id}
+Status actual: ${order.status}
+Total: ${lei(order.total)}
+
+Cu drag,
+Dia Flowers
+Flori care transmit emoții
+Telefon: 0764 699 342
 `.trim(),
   });
-}
 }
 
 ensureFiles();
@@ -203,15 +263,15 @@ app.post("/api/products", (req, res) => {
   const products = readJson(PRODUCTS_FILE);
 
   const product = {
-  id: makeId("p"),
-  name,
-  category,
-  price: Number(price),
-  stock: Number(stock || 0),
-  image: image || "",
-  images: Array.isArray(images) ? images : [],
-  description: description || "",
-};
+    id: makeId("p"),
+    name,
+    category,
+    price: Number(price),
+    stock: Number(stock || 0),
+    image: image || "",
+    images: Array.isArray(images) ? images : [],
+    description: description || "",
+  };
 
   products.unshift(product);
   writeJson(PRODUCTS_FILE, products);
@@ -239,7 +299,10 @@ app.put("/api/products/:id", (req, res) => {
 });
 
 app.delete("/api/products/:id", (req, res) => {
-  const products = readJson(PRODUCTS_FILE).filter((p) => p.id !== req.params.id);
+  const products = readJson(PRODUCTS_FILE).filter(
+    (p) => p.id !== req.params.id
+  );
+
   writeJson(PRODUCTS_FILE, products);
 
   res.json({ ok: true });
@@ -300,11 +363,13 @@ app.post("/api/orders", async (req, res) => {
 
     res.status(201).json(order);
   } catch (err) {
-    res.status(400).json({ error: err.message || "Eroare la salvarea comenzii." });
+    res
+      .status(400)
+      .json({ error: err.message || "Eroare la salvarea comenzii." });
   }
 });
 
-app.patch("/api/orders/:id/status", (req, res) => {
+app.patch("/api/orders/:id/status", async (req, res) => {
   const orders = readJson(ORDERS_FILE);
   const order = orders.find((o) => o.id === req.params.id);
 
@@ -312,8 +377,16 @@ app.patch("/api/orders/:id/status", (req, res) => {
     return res.status(404).json({ error: "Comandă negăsită." });
   }
 
+  const oldStatus = order.status;
   order.status = req.body.status || order.status;
+
   writeJson(ORDERS_FILE, orders);
+
+  if (oldStatus !== order.status) {
+    sendStatusEmail(order).catch((err) => {
+      console.error("Eroare trimitere email status:", err.message);
+    });
+  }
 
   res.json(order);
 });
@@ -329,6 +402,7 @@ app.post("/api/upload", upload.single("image"), (req, res) => {
     imageUrl: `/images/products/${req.file.filename}`,
   });
 });
+
 app.post("/api/upload-multiple", upload.array("images", 10), (req, res) => {
   if (!req.files || !req.files.length) {
     return res.status(400).json({
@@ -344,6 +418,7 @@ app.post("/api/upload-multiple", upload.array("images", 10), (req, res) => {
     imageUrls,
   });
 });
+
 app.get("/api/backup", (req, res) => {
   const backup = {
     createdAt: new Date().toISOString(),
@@ -368,6 +443,7 @@ app.get("/api/backup/download", (req, res) => {
 
   res.download(filePath);
 });
+
 app.listen(PORT, () => {
   console.log(`Floraria online rulează pe http://localhost:${PORT}`);
 });
