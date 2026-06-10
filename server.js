@@ -158,6 +158,33 @@ ${order.notes || "-"}
     subject: `Comandă nouă Dia Flowers - ${lei(order.total)}`,
     text,
   });
+  if (order.customer.email) {
+  await mailTransporter.sendMail({
+    from: `"Dia Flowers" <${process.env.SMTP_USER}>`,
+    to: order.customer.email,
+    subject: `Confirmare comandă Dia Flowers`,
+    text: `
+Bună, ${order.customer.name}!
+
+Îți mulțumim pentru comandă. Am primit solicitarea ta și te vom contacta telefonic pentru confirmare.
+
+ID comandă: ${order.id}
+Total: ${lei(order.total)}
+
+Produse:
+${productsText}
+
+Livrare:
+Adresă: ${order.delivery.address}
+Data: ${order.delivery.date}
+Ora: ${order.delivery.time}
+
+Cu drag,
+Dia Flowers
+Flori care transmit emoții
+`.trim(),
+  });
+}
 }
 
 ensureFiles();
