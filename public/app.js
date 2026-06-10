@@ -68,10 +68,25 @@ function renderProducts() {
           <p>${p.description || ""}</p>
 
           <div class="price-row">
-            <span class="price">${lei(p.price)}</span>
-            <button class="add-btn" onclick="addToCart('${p.id}')">
-              Adaugă
-            </button>
+            <div class="stock-info">
+  ${
+    Number(p.stock || 0) <= 0
+      ? '<span class="out-of-stock">Stoc epuizat</span>'
+      : Number(p.stock || 0) <= 3
+      ? `<span class="low-stock">Ultimele ${p.stock} bucăți</span>`
+      : `<span class="in-stock">În stoc: ${p.stock}</span>`
+  }
+</div>
+
+<span class="price">${lei(p.price)}</span>
+
+<button
+  class="add-btn"
+  ${Number(p.stock || 0) <= 0 ? "disabled" : ""}
+  onclick="addToCart('${p.id}')"
+>
+  ${Number(p.stock || 0) <= 0 ? "Indisponibil" : "Adaugă"}
+</button>
           </div>
         </div>
       </article>

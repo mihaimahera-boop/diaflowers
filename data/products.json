@@ -1,5 +1,17 @@
 [
   {
+    "id": "p_1781101418806_780e1b",
+    "name": "garoafa",
+    "category": "Buchete",
+    "price": 1,
+    "stock": 90,
+    "image": "/images/products/1781101418788-logo-dia-flowers2.png",
+    "images": [
+      "/images/products/1781101418788-logo-dia-flowers2.png"
+    ],
+    "description": ""
+  },
+  {
     "id": "p_1781012318054_21b8a9",
     "name": "frezi",
     "category": "Buchete",

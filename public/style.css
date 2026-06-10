@@ -972,3 +972,37 @@ footer{
 .hidden {
   display: none;
 }
+.stock-info {
+  margin: 8px 0;
+  font-size: 14px;
+}
+
+.in-stock {
+  color: #16a34a;
+  font-weight: 600;
+}
+
+.low-stock {
+  color: #ea580c;
+  font-weight: 700;
+}
+
+.out-of-stock {
+  color: #dc2626;
+  font-weight: 700;
+}
+
+.add-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.whatsapp-order-btn {
+  display: inline-block;
+  margin: 10px 0;
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: #25d366;
+  color: white;
+  font-weight: 700;
+  text-decoration: none;
+}

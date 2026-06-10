@@ -331,14 +331,21 @@ app.post("/api/orders", async (req, res) => {
       }
 
       const qty = Math.max(1, Number(item.qty || 1));
-      total += product.price * qty;
 
-      return {
-        id: product.id,
-        name: product.name,
-        price: product.price,
-        qty,
-      };
+if (Number(product.stock || 0) < qty) {
+  throw new Error(`Stoc insuficient pentru produsul: ${product.name}`);
+}
+
+product.stock = Number(product.stock || 0) - qty;
+
+total += product.price * qty;
+
+return {
+  id: product.id,
+  name: product.name,
+  price: product.price,
+  qty,
+};
     });
 
     const orders = readJson(ORDERS_FILE);
@@ -356,6 +363,7 @@ app.post("/api/orders", async (req, res) => {
 
     orders.unshift(order);
     writeJson(ORDERS_FILE, orders);
+    writeJson(PRODUCTS_FILE, products);
 
     sendOrderEmail(order).catch((err) => {
       console.error("Eroare trimitere email comandă:", err.message);
