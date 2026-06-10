@@ -226,9 +226,9 @@ checkoutForm.addEventListener("submit", async (e) => {
   renderCart();
   checkoutForm.reset();
 
-  orderMessage.textContent = `Comanda ${data.id} a fost trimisă. Total: ${lei(data.total)}. Se deschide WhatsApp pentru confirmare.`;
+  orderMessage.textContent = `Comanda ${data.id} a fost trimisă. Total: ${lei(data.total)}. Vei primi confirmarea pe email.`;
 
-  openWhatsApp(whatsappMessage);
+  // openWhatsApp(whatsappMessage);
 });
 
 cartBtn.onclick = () => cartDrawer.classList.remove("hidden");
