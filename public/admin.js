@@ -1,10 +1,13 @@
 const productForm = document.getElementById("productForm");
 const adminProducts = document.getElementById("adminProducts");
 const ordersList = document.getElementById("ordersList");
+const orderSearch = document.getElementById("orderSearch");
 
 const totalOrders = document.getElementById("totalOrders");
 const newOrders = document.getElementById("newOrders");
 const totalSales = document.getElementById("totalSales");
+const todayOrders = document.getElementById("todayOrders");
+const todaySales = document.getElementById("todaySales");
 
 const lei = (n) => `${Number(n || 0).toLocaleString("ro-RO")} lei`;
 
@@ -24,6 +27,7 @@ function renderStats() {
   if (!totalOrders || !newOrders || !totalSales) return;
 
   totalOrders.textContent = orders.length;
+
   newOrders.textContent = orders.filter((o) => o.status === "Nouă").length;
 
   const sales = orders
@@ -31,6 +35,24 @@ function renderStats() {
     .reduce((sum, o) => sum + Number(o.total || 0), 0);
 
   totalSales.textContent = lei(sales);
+
+  const today = new Date().toISOString().slice(0, 10);
+
+  const ordersToday = orders.filter((o) =>
+    String(o.createdAt || "").slice(0, 10) === today
+  );
+
+  if (todayOrders) {
+    todayOrders.textContent = ordersToday.length;
+  }
+
+  if (todaySales) {
+    const salesToday = ordersToday
+      .filter((o) => o.status !== "Anulată")
+      .reduce((sum, o) => sum + Number(o.total || 0), 0);
+
+    todaySales.textContent = lei(salesToday);
+  }
 }
 
 function renderProducts() {
@@ -51,30 +73,19 @@ function renderProducts() {
 }
 
 function renderOrders() {
+
+  const search = (orderSearch?.value || "").toLowerCase();
+
+  const filteredOrders = orders.filter((o) => {
+    return (
+      o.customer.name.toLowerCase().includes(search) ||
+      o.customer.phone.toLowerCase().includes(search) ||
+      o.status.toLowerCase().includes(search)
+    );
+  });
+
   ordersList.innerHTML =
-    orders.map((o) => `
-      <div class="order">
-        <div class="order-head">
-          <strong>${o.customer.name} · ${o.customer.phone}</strong>
-          <span class="status">${o.status}</span>
-        </div>
-
-        <p><b>Livrare:</b> ${o.delivery.address}, ${o.delivery.date} ${o.delivery.time}</p>
-        <p><b>Produse:</b> ${o.items.map((i) => `${i.name} x ${i.qty}`).join(", ")}</p>
-        <p><b>Total:</b> ${lei(o.total)}</p>
-        <p>${o.notes || ""}</p>
-
-        <select onchange="updateStatus('${o.id}', this.value)">
-          <option>Schimbă status</option>
-          <option>Nouă</option>
-          <option>Confirmată</option>
-          <option>În lucru</option>
-          <option>Livrată</option>
-          <option>Anulată</option>
-        </select>
-      </div>
-    `).join("") || "<p>Nu există comenzi încă.</p>";
-}
+    filteredOrders.map((o) => `
 
 productForm.addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -205,5 +216,7 @@ function logoutAdmin() {
   localStorage.removeItem("diaflowersAdmin");
   window.location.href = "login.html";
 }
-
+orderSearch?.addEventListener("input", () => {
+  renderOrders();
+});
 loadAdmin();

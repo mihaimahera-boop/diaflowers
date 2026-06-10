@@ -33,6 +33,15 @@
     <span>Vânzări totale</span>
     <strong id="totalSales">0 lei</strong>
   </div>
+  <div class="stat-card">
+  <span>Comenzi azi</span>
+  <strong id="todayOrders">0</strong>
+</div>
+
+<div class="stat-card">
+  <span>Vânzări azi</span>
+  <strong id="todaySales">0 lei</strong>
+</div>
 </section>
     <section class="panel">
       <h2>Adaugă produs</h2>
@@ -52,6 +61,12 @@
     </section>
     <section class="panel orders-panel">
       <h2>Comenzi</h2>
+      <input
+  id="orderSearch"
+  type="text"
+  placeholder="Caută după nume, telefon sau status..."
+  class="search-input"
+/>
       <div id="ordersList"></div>
     </section>
   </main>
