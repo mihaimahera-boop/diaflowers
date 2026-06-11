@@ -351,7 +351,14 @@ app.get("/api/orders", (req, res) => {
 
 app.post("/api/orders", async (req, res) => {
   try {
-    const { customer, items, delivery, notes, payment } = req.body;
+    const {
+  customer,
+  items,
+  delivery,
+  notes,
+  payment,
+  promo,
+} = req.body;
 
     if (!customer?.name || !customer?.phone || !items?.length) {
       return res.status(400).json({ error: "Comanda este incompletă." });
@@ -397,6 +404,7 @@ return {
     method: payment?.method || "cash",
     status: payment?.method === "card" ? "Așteaptă plata" : "Plată la livrare",
   },
+  promo: promo || null,
   notes: notes || "",
   items: orderItems,
   total,

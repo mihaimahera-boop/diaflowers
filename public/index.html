@@ -27,6 +27,24 @@
 
   <link rel="canonical" href="https://diaflowers.ro/" />
   <link rel="stylesheet" href="style.css" />
+  <script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"Florist",
+  "name":"Dia Flowers",
+  "url":"https://diaflowers.ro",
+  "telephone":"+40764699342",
+  "image":"https://diaflowers.ro/images/logo-dia-flowers-header.png",
+  "address":{
+    "@type":"PostalAddress",
+    "streetAddress":"Piața Gării de Nord 6",
+    "addressLocality":"București",
+    "postalCode":"010856",
+    "addressCountry":"RO"
+  },
+  "areaServed":"București"
+}
+</script>
 </head>
 
 <body>
@@ -167,8 +185,73 @@
 
 </main>
 
-<footer>
-  <strong>Dia Flowers</strong> · Flori care transmit emoții · Telefon: 0764 699 342
+<footer class="site-footer">
+
+  <div class="footer-grid">
+
+    <div>
+      <h3>🌸 Dia Flowers</h3>
+      <p>Flori care transmit emoții.</p>
+      <p>Buchete premium și livrare rapidă în București.</p>
+    </div>
+
+    <div>
+      <h3>📞 Contact</h3>
+      <p>
+  Telefon:
+  <a href="tel:+40764699342">
+    0764 699 342
+  </a>
+</p>
+<p>
+  <a
+    href="https://wa.me/40764699342"
+    target="_blank"
+  >
+    💬 Scrie-ne pe WhatsApp
+  </a>
+</p>
+      <p>
+  Email:
+  <a href="mailto:comenzi@diaflowers.ro">
+    comenzi@diaflowers.ro
+  </a>
+</p>
+    </div>
+
+    <div>
+      <h3>🕒 Program</h3>
+      <p>Luni - Vineri: 08:00 - 20:00</p>
+      <p>Sâmbătă - Duminică: 09:00 - 18:00</p>
+    </div>
+
+    <div>
+  
+
+  
+
+  <div>
+  <h3>📍 Locație</h3>
+
+  <p>Piața Gării de Nord 6-8, București</p>
+
+  <iframe
+    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2848.401883139919!2d26.074805275743504!3d44.44542990083387!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40b201fb6075bf2f%3A0x3df278393d58d5ac!2zUGlhyJthIEfEg3JpaSBkZSBOb3JkIDYsIEJ1Y3VyZciZdGk!5e0!3m2!1sen!2sro!4v1781179466365!5m2!1sen!2sro"
+    width="100%"
+    height="180"
+    style="border:0;border-radius:12px;"
+    allowfullscreen=""
+    loading="lazy"
+    referrerpolicy="no-referrer-when-downgrade">
+  </iframe>
+</div>
+
+  </div>
+
+  <div class="footer-bottom">
+    © 2026 Dia Flowers. Toate drepturile rezervate.
+  </div>
+
 </footer>
 
 <a
@@ -244,6 +327,17 @@
         placeholder="Mesaj pe felicitare / observații"
       ></textarea>
 
+      <div class="promo-box">
+  <label for="promoCode"><strong>Cod promoțional</strong></label>
+
+  <input
+    id="promoCode"
+    name="promoCode"
+    placeholder="Ex: DIA10"
+  />
+
+  <p id="promoMessage"></p>
+</div>
       <button type="submit">
         Trimite comanda
       </button>

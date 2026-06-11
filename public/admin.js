@@ -2,6 +2,7 @@ const productForm = document.getElementById("productForm");
 const adminProducts = document.getElementById("adminProducts");
 const ordersList = document.getElementById("ordersList");
 const orderSearch = document.getElementById("orderSearch");
+const exportOrdersBtn = document.getElementById("exportOrdersBtn");
 
 const totalOrders = document.getElementById("totalOrders");
 const newOrders = document.getElementById("newOrders");
@@ -134,6 +135,13 @@ function renderOrders() {
         }</p>
 
         <p><b>Total:</b> ${lei(o.total)}</p>
+        ${
+  o.promo
+    ? `<p><b>Promo:</b> ${o.promo.code} (-${lei(
+        o.promo.discount
+      )})</p>`
+    : ""
+}
         <p>
   <b>Plată:</b>
   ${o.payment?.method === "card" ? "Card" : "La livrare"}
@@ -298,5 +306,57 @@ function logoutAdmin() {
 orderSearch?.addEventListener("input", () => {
   renderOrders();
 });
+function exportOrdersCsv() {
+  const rows = [
+    [
+      "Data",
+      "Client",
+      "Telefon",
+      "Email",
+      "Livrare",
+      "Produse",
+      "Total",
+      "Status",
+      "Plata",
+      "Promo",
+    ],
+    ...orders.map((o) => [
+      o.createdAt ? new Date(o.createdAt).toLocaleString("ro-RO") : "",
+      o.customer?.name || "",
+      o.customer?.phone || "",
+      o.customer?.email || "",
+      o.delivery?.address || "",
+      o.items?.map((i) => `${i.name} x ${i.qty}`).join(" | ") || "",
+      o.total || 0,
+      o.status || "",
+      o.payment?.method === "card" ? "Card" : "La livrare",
+      o.promo ? `${o.promo.code} - ${o.promo.discount} lei` : "",
+    ]),
+  ];
 
+  const csv = rows
+    .map((row) =>
+      row
+        .map((cell) => `"${String(cell).replaceAll('"', '""')}"`)
+        .join(",")
+    )
+    .join("\n");
+
+  const blob = new Blob(["\uFEFF" + csv], {
+    type: "text/csv;charset=utf-8;",
+  });
+
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+
+  a.href = url;
+  a.download = `comenzi-dia-flowers-${new Date()
+    .toISOString()
+    .slice(0, 10)}.csv`;
+
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+exportOrdersBtn?.addEventListener("click", exportOrdersCsv);
 loadAdmin();

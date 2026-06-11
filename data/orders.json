@@ -1,5 +1,100 @@
 [
   {
+    "id": "o_1781177254140_45a627",
+    "createdAt": "2026-06-11T11:27:34.140Z",
+    "status": "Nouă",
+    "customer": {
+      "name": "Mihai Mahera",
+      "phone": "0784328243",
+      "email": "mihaimahera@gmail.com"
+    },
+    "delivery": {
+      "address": "Sergent Nutu Ion nr 44, Cladirea de birouri B, Etaj 8 ( SUPERBET)"
+    },
+    "payment": {
+      "method": "cash",
+      "status": "Plată la livrare"
+    },
+    "promo": {
+      "code": "DIA10",
+      "discount": 25
+    },
+    "notes": "",
+    "items": [
+      {
+        "id": "p3",
+        "name": "Aranjament Cutie Luxury",
+        "price": 249,
+        "qty": 1
+      }
+    ],
+    "total": 249
+  },
+  {
+    "id": "o_1781177229910_e54b13",
+    "createdAt": "2026-06-11T11:27:09.910Z",
+    "status": "Nouă",
+    "customer": {
+      "name": "Mihai Mahera",
+      "phone": "0784328243",
+      "email": "mihaimahera@gmail.com"
+    },
+    "delivery": {
+      "address": "Sergent Nutu Ion nr 44, Cladirea de birouri B, Etaj 8 ( SUPERBET)"
+    },
+    "payment": {
+      "method": "cash",
+      "status": "Plată la livrare"
+    },
+    "promo": {
+      "code": "DIA10",
+      "discount": 15
+    },
+    "notes": "",
+    "items": [
+      {
+        "id": "p2",
+        "name": "Buchet Pastel",
+        "price": 149,
+        "qty": 1
+      }
+    ],
+    "total": 149
+  },
+  {
+    "id": "o_1781176970034_ef3ddf",
+    "createdAt": "2026-06-11T11:22:50.034Z",
+    "status": "Nouă",
+    "customer": {
+      "name": "Mihai Mahera",
+      "phone": "0784328243",
+      "email": "mihaimahera@gmail.com"
+    },
+    "delivery": {
+      "address": "Sergent Nutu Ion nr 44, Cladirea de birouri B, Etaj 8 ( SUPERBET)"
+    },
+    "payment": {
+      "method": "cash",
+      "status": "Plată la livrare"
+    },
+    "notes": "",
+    "items": [
+      {
+        "id": "p3",
+        "name": "Aranjament Cutie Luxury",
+        "price": 249,
+        "qty": 1
+      },
+      {
+        "id": "p_1780918334123_ceb142",
+        "name": "Buchet Lalele",
+        "price": 70,
+        "qty": 1
+      }
+    ],
+    "total": 319
+  },
+  {
     "id": "o_1781175417732_1b4b3d",
     "createdAt": "2026-06-11T10:56:57.732Z",
     "status": "Nouă",

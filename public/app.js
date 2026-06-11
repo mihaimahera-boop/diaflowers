@@ -8,6 +8,8 @@ const cartCount = document.getElementById("cartCount");
 const searchInput = document.getElementById("searchInput");
 const checkoutForm = document.getElementById("checkoutForm");
 const orderMessage = document.getElementById("orderMessage");
+const promoCodeInput = document.getElementById("promoCode");
+const promoMessage = document.getElementById("promoMessage");
 
 const openCheckoutBtn = document.getElementById("openCheckoutBtn");
 const checkoutModal = document.getElementById("checkoutModal");
@@ -19,8 +21,40 @@ const WHATSAPP_PHONE = "40764699342";
 let products = [];
 let cart = JSON.parse(localStorage.getItem("flowerCart") || "[]");
 let currentCategory = "toate";
+let appliedPromo = null;
 
 const lei = (n) => `${Number(n || 0).toLocaleString("ro-RO")} lei`;
+function calculatePromoDiscount(subtotal) {
+  const code = (promoCodeInput?.value || "").trim().toUpperCase();
+
+  if (!code) {
+    appliedPromo = null;
+    if (promoMessage) promoMessage.textContent = "";
+    return 0;
+  }
+
+  if (code === "DIA10") {
+    appliedPromo = { code, discount: Math.round(subtotal * 0.1) };
+    if (promoMessage) promoMessage.textContent = "Cod aplicat: 10% reducere.";
+    return appliedPromo.discount;
+  }
+
+  if (code === "FLORI50") {
+    if (subtotal < 300) {
+      appliedPromo = null;
+      if (promoMessage) promoMessage.textContent = "FLORI50 se aplică la comenzi peste 300 lei.";
+      return 0;
+    }
+
+    appliedPromo = { code, discount: 50 };
+    if (promoMessage) promoMessage.textContent = "Cod aplicat: 50 lei reducere.";
+    return 50;
+  }
+
+  appliedPromo = null;
+  if (promoMessage) promoMessage.textContent = "Cod promoțional invalid.";
+  return 0;
+}
 const saveCart = () => localStorage.setItem("flowerCart", JSON.stringify(cart));
 
 async function loadProducts() {
@@ -157,11 +191,42 @@ function renderCart() {
         .join("")
     : "<p>Coșul este gol.</p>";
 
-  const total = rows.reduce((s, x) => s + x.product.price * x.qty, 0);
-  const count = rows.reduce((s, x) => s + x.qty, 0);
+  const subtotal = rows.reduce(
+  (s, x) => s + x.product.price * x.qty,
+  0
+);
 
-  cartTotal.textContent = lei(total);
+const discount = calculatePromoDiscount(subtotal);
+
+const transport = subtotal >= 250 ? 0 : 25;
+
+const total = Math.max(
+  0,
+  subtotal + transport - discount
+);
+
+const count = rows.reduce(
+  (s, x) => s + x.qty,
+  0
+);
+
+cartTotal.innerHTML = `
+Produse: ${lei(subtotal)}<br>
+Reducere: ${discount > 0 ? `-${lei(discount)}` : "0 lei"}<br>
+Transport: ${transport === 0 ? "GRATUIT" : lei(transport)}<br>
+<strong>Total: ${lei(total)}</strong>
+`;
   cartCount.textContent = count;
+  const missing = 250 - subtotal;
+
+if (subtotal > 0 && subtotal < 250) {
+  cartTotal.innerHTML += `
+    <div style="margin-top:10px;color:#e11d72;font-weight:700;">
+      Mai adaugă produse de ${lei(missing)}
+      pentru livrare gratuită 🚚
+    </div>
+  `;
+}
 }
 
 function buildWhatsAppMessage(order, rows) {
@@ -228,10 +293,13 @@ checkoutForm.addEventListener("submit", async (e) => {
     address: form.get("address"),
   },
   payment: {
-    method: form.get("paymentMethod") || "cash",
-  },
-  notes: form.get("message"),
-  items: cart,
+  method: form.get("paymentMethod") || "cash",
+},
+
+promo: appliedPromo,
+
+notes: form.get("message"),
+items: cart,
 };
 
 const res = await fetch("/api/orders", {
@@ -411,5 +479,7 @@ cartCheckoutBtn?.addEventListener("click", openCheckoutModal);
 closeCheckoutBtn?.addEventListener("click", () => {
   checkoutModal.classList.add("hidden");
 });
-
+promoCodeInput?.addEventListener("input", () => {
+  renderCart();
+});
 loadProducts();
