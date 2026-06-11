@@ -175,32 +175,39 @@ ${order.notes || "-"}
   });
 
   if (order.customer.email) {
-    await mailTransporter.sendMail({
-      from: `"Dia Flowers" <${process.env.SMTP_USER}>`,
-      to: order.customer.email,
-      subject: "Confirmare comandă Dia Flowers",
-      text: `
+  await mailTransporter.sendMail({
+    from: `"Dia Flowers" <${process.env.SMTP_USER}>`,
+    to: order.customer.email,
+    subject: "Comanda ta Dia Flowers a fost primită",
+    text: `
 Bună, ${order.customer.name}!
 
-Îți mulțumim pentru comandă. Am primit solicitarea ta și te vom contacta telefonic pentru confirmare.
+Îți mulțumim pentru comandă. Am primit solicitarea ta și te vom contacta telefonic pentru confirmarea livrării.
 
 ID comandă: ${order.id}
 Total: ${lei(order.total)}
+Metodă plată: ${
+      order.payment?.method === "card"
+        ? "Plată online cu cardul"
+        : "Plată la livrare"
+    }
 
 Produse:
 ${productsText}
 
 Livrare:
 Adresă: ${order.delivery.address}
-Programarea livrării va fi stabilită telefonic.
+
+Observații:
+${order.notes || "-"}
 
 Cu drag,
 Dia Flowers
 Flori care transmit emoții
 Telefon: 0764 699 342
 `.trim(),
-    });
-  }
+  });
+}
 }
 
 async function sendStatusEmail(order) {

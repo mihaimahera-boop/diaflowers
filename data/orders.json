@@ -1,5 +1,32 @@
 [
   {
+    "id": "o_1781175417732_1b4b3d",
+    "createdAt": "2026-06-11T10:56:57.732Z",
+    "status": "Nouă",
+    "customer": {
+      "name": "Mihai Mahera",
+      "phone": "0784328243",
+      "email": "mihaimahera@gmail.com"
+    },
+    "delivery": {
+      "address": "Sergent Nutu Ion nr 44, Cladirea de birouri B, Etaj 8 ( SUPERBET)"
+    },
+    "payment": {
+      "method": "cash",
+      "status": "Plată la livrare"
+    },
+    "notes": "",
+    "items": [
+      {
+        "id": "p_1781012318054_21b8a9",
+        "name": "frezi",
+        "price": 1,
+        "qty": 1
+      }
+    ],
+    "total": 1
+  },
+  {
     "id": "o_1781174855975_922740",
     "createdAt": "2026-06-11T10:47:35.975Z",
     "status": "Nouă",
