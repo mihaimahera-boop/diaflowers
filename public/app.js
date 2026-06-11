@@ -245,9 +245,15 @@ const res = await fetch("/api/orders", {
   const data = await res.json();
 
   if (!res.ok) {
-    orderMessage.textContent = data.error || "Eroare la trimiterea comenzii.";
-    return;
-  }
+  const errorText = data.error || "Eroare la trimiterea comenzii.";
+
+  orderMessage.textContent = errorText;
+  orderMessage.style.color = "#dc2626";
+
+  alert(errorText);
+
+  return;
+}
 
   cart = [];
   saveCart();
