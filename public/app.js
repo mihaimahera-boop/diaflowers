@@ -289,44 +289,107 @@ document.querySelectorAll(".category-btn").forEach((btn) => {
 
 function openGallery(id) {
   const product = products.find((p) => p.id === id);
+
   if (!product) return;
 
-  const images = product.images?.length ? product.images : [product.image];
+  const images =
+    product.images?.length
+      ? product.images
+      : [product.image];
+
   const currentImage = images[0];
+
+  const stockText =
+    Number(product.stock || 0) <= 0
+      ? "Stoc epuizat"
+      : `În stoc: ${product.stock}`;
 
   const galleryHtml = `
     <div class="gallery-modal" onclick="closeGallery()">
-      <div class="gallery-box" onclick="event.stopPropagation()">
-        <button class="gallery-close" onclick="closeGallery()">×</button>
 
-        <h2>${product.name}</h2>
+      <div class="gallery-box product-popup" onclick="event.stopPropagation()">
 
-        <img
-          id="mainGalleryImage"
-          class="gallery-main-image"
-          src="${currentImage}"
-          alt="${product.name}"
-        >
+        <button class="gallery-close" onclick="closeGallery()">
+          ×
+        </button>
 
-        <div class="gallery-thumbs">
-          ${images
-            .filter(Boolean)
-            .map(
-              (img) => `
-                <img
-                  src="${img}"
-                  class="gallery-thumb"
-                  onclick="changeGalleryImage('${img}')"
-                >
-              `
-            )
-            .join("")}
+        <div class="product-popup-grid">
+
+          <div>
+
+            <img
+              id="mainGalleryImage"
+              class="gallery-main-image"
+              src="${currentImage}"
+              alt="${product.name}"
+            >
+
+            <div class="gallery-thumbs">
+              ${images
+                .filter(Boolean)
+                .map(
+                  (img) => `
+                    <img
+                      src="${img}"
+                      class="gallery-thumb"
+                      onclick="changeGalleryImage('${img}')"
+                    >
+                  `
+                )
+                .join("")}
+            </div>
+
+          </div>
+
+          <div class="product-popup-info">
+
+            <span class="category">
+              ${product.category}
+            </span>
+
+            <h2>${product.name}</h2>
+
+            <p>
+              ${product.description || "Buchet premium realizat cu flori proaspete."}
+            </p>
+
+            <div class="popup-price">
+              ${lei(product.price)}
+            </div>
+
+            <div class="popup-stock">
+              ${stockText}
+            </div>
+
+            <button
+              class="popup-add-btn"
+              ${
+                Number(product.stock || 0) <= 0
+                  ? "disabled"
+                  : ""
+              }
+              onclick="addToCart('${product.id}'); closeGallery();"
+            >
+              ${
+                Number(product.stock || 0) <= 0
+                  ? "Indisponibil"
+                  : "💐 Adaugă în coș"
+              }
+            </button>
+
+          </div>
+
         </div>
+
       </div>
+
     </div>
   `;
 
-  document.body.insertAdjacentHTML("beforeend", galleryHtml);
+  document.body.insertAdjacentHTML(
+    "beforeend",
+    galleryHtml
+  );
 }
 
 function closeGallery() {

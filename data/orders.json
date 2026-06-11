@@ -1,5 +1,86 @@
 [
   {
+    "id": "o_1781174855975_922740",
+    "createdAt": "2026-06-11T10:47:35.975Z",
+    "status": "Nouă",
+    "customer": {
+      "name": "Mihai Mahera",
+      "phone": "0784328243",
+      "email": "mihaimahera@gmail.com"
+    },
+    "delivery": {
+      "address": "Sergent Nutu Ion nr 44, Cladirea de birouri B, Etaj 8 ( SUPERBET)"
+    },
+    "payment": {
+      "method": "cash",
+      "status": "Plată la livrare"
+    },
+    "notes": "",
+    "items": [
+      {
+        "id": "p_1781166158005_df8eae",
+        "name": "Bumbac",
+        "price": 12,
+        "qty": 2
+      }
+    ],
+    "total": 24
+  },
+  {
+    "id": "o_1781174820855_51e260",
+    "createdAt": "2026-06-11T10:47:00.855Z",
+    "status": "Nouă",
+    "customer": {
+      "name": "Mihai Mahera",
+      "phone": "0784328243",
+      "email": "mihaimahera@gmail.com"
+    },
+    "delivery": {
+      "address": "Sergent Nutu Ion nr 44"
+    },
+    "payment": {
+      "method": "cash",
+      "status": "Plată la livrare"
+    },
+    "notes": "",
+    "items": [
+      {
+        "id": "p_1781166158005_df8eae",
+        "name": "Bumbac",
+        "price": 12,
+        "qty": 1
+      }
+    ],
+    "total": 12
+  },
+  {
+    "id": "o_1781174089241_f86142",
+    "createdAt": "2026-06-11T10:34:49.241Z",
+    "status": "Nouă",
+    "customer": {
+      "name": "Mihai Mahera",
+      "phone": "0784328243",
+      "email": "mihaimahera@gmail.com"
+    },
+    "delivery": {
+      "address": "Sergent Nutu Ion nr 44, Cladirea de birouri B, Etaj 8 ( SUPERBET)"
+    },
+    "payment": {
+      "method": "cash",
+      "status": "Plată la livrare"
+    },
+    "notes": "",
+    "items": [
+      {
+        "id": "p_1781166158005_df8eae",
+        "name": "Bumbac",
+        "price": 12,
+        "qty": 1
+      }
+    ],
+    "total": 12
+  },
+  {
     "id": "o_1781167980223_d9b32a",
     "createdAt": "2026-06-11T08:53:00.223Z",
     "status": "Nouă",

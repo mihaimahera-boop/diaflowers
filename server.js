@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const fs = require("fs");
 const path = require("path");
@@ -246,6 +247,35 @@ Telefon: 0764 699 342
 `.trim(),
   });
 }
+async function sendLowStockEmail(products) {
+  if (!hasEmailConfig()) {
+    console.log("Email stoc redus sărit: lipsesc variabilele SMTP.");
+    return;
+  }
+
+  const lowStockProducts = products.filter(
+    (p) => Number(p.stock || 0) <= 3
+  );
+
+  if (!lowStockProducts.length) return;
+
+  const productsText = lowStockProducts
+    .map((p) => `- ${p.name}: ${p.stock} buc.`)
+    .join("\n");
+
+  await mailTransporter.sendMail({
+    from: `"Dia Flowers" <${process.env.SMTP_USER}>`,
+    to: process.env.ORDER_EMAIL_TO || process.env.SMTP_USER,
+    subject: "⚠️ Dia Flowers - produse cu stoc redus",
+    text: `
+Atenție, următoarele produse au stoc redus:
+
+${productsText}
+
+Recomandare: verifică Admin și reaprovizionează produsele.
+`.trim(),
+  });
+}
 
 ensureFiles();
 
@@ -368,10 +398,14 @@ return {
     orders.unshift(order);
     writeJson(ORDERS_FILE, orders);
     writeJson(PRODUCTS_FILE, products);
+    
 
     sendOrderEmail(order).catch((err) => {
       console.error("Eroare trimitere email comandă:", err.message);
     });
+    sendLowStockEmail(products).catch((err) => {
+  console.error("Eroare trimitere email stoc redus:", err.message);
+});
 
     res.status(201).json(order);
   } catch (err) {

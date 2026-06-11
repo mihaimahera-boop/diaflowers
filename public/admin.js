@@ -71,7 +71,18 @@ function renderProducts() {
         }
 
         <strong>${p.name}</strong><br>
-        ${p.category} · ${lei(p.price)} · Stoc: ${p.stock}
+
+${p.category} · ${lei(p.price)}
+
+<br><br>
+
+${
+  Number(p.stock || 0) <= 0
+    ? '<span class="stock-badge stock-out">🔴 Epuizat</span>'
+    : Number(p.stock || 0) <= 3
+    ? `<span class="stock-badge stock-low">🟡 Stoc redus (${p.stock})</span>`
+    : `<span class="stock-badge stock-ok">🟢 În stoc (${p.stock})</span>`
+}
 
         <br><br>
 
