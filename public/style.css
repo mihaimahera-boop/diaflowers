@@ -1084,3 +1084,44 @@ footer{
   width:100%;
   display:block;
 }
+.payment-box{
+  grid-column:1/-1;
+  background:#fff8fa;
+  border:1px solid #f0c8d6;
+  border-radius:16px;
+  padding:15px;
+  display:grid;
+  gap:10px;
+  text-align:left;
+}
+
+.payment-box p{
+  margin:0 0 4px;
+  color:#2d1b20;
+}
+
+.payment-option{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:12px;
+  border:1px solid #f4d5df;
+  border-radius:14px;
+  background:white;
+  font-weight:800;
+}
+
+.payment-option small{
+  color:#9b6b7b;
+  font-weight:700;
+}
+
+.payment-option:has(input:checked){
+  border-color:#e11d72;
+  box-shadow:0 8px 20px rgba(225,29,114,.12);
+}
+
+.payment-option:has(input:disabled){
+  opacity:.55;
+  cursor:not-allowed;
+}

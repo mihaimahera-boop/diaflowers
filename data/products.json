@@ -1,5 +1,17 @@
 [
   {
+    "id": "p_1781166158005_df8eae",
+    "name": "Bumbac",
+    "category": "Buchete",
+    "price": 12,
+    "stock": 0,
+    "image": "/images/products/1781166157991-logo-dia-flowers4.png",
+    "images": [
+      "/images/products/1781166157991-logo-dia-flowers4.png"
+    ],
+    "description": ""
+  },
+  {
     "id": "p_1781101418806_780e1b",
     "name": "garoafa",
     "category": "Buchete",

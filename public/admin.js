@@ -123,6 +123,11 @@ function renderOrders() {
         }</p>
 
         <p><b>Total:</b> ${lei(o.total)}</p>
+        <p>
+  <b>Plată:</b>
+  ${o.payment?.method === "card" ? "Card" : "La livrare"}
+  · ${o.payment?.status || "-"}
+</p>
         <a
   class="whatsapp-order-btn"
   target="_blank"

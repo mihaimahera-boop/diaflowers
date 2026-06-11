@@ -219,19 +219,22 @@ checkoutForm.addEventListener("submit", async (e) => {
   const form = new FormData(checkoutForm);
 
   const payload = {
-    customer: {
-      name: form.get("name"),
-      phone: form.get("phone"),
-      email: form.get("email"),
-    },
-    delivery: {
-      address: form.get("address"),
-    },
-    notes: form.get("message"),
-    items: cart,
-  };
+  customer: {
+    name: form.get("name"),
+    phone: form.get("phone"),
+    email: form.get("email"),
+  },
+  delivery: {
+    address: form.get("address"),
+  },
+  payment: {
+    method: form.get("paymentMethod") || "cash",
+  },
+  notes: form.get("message"),
+  items: cart,
+};
 
-  const res = await fetch("/api/orders", {
+const res = await fetch("/api/orders", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

@@ -213,6 +213,31 @@
         placeholder="Adresă livrare"
         required
       />
+      <div class="payment-box">
+
+  <p><strong>Metodă de plată</strong></p>
+
+  <label class="payment-option">
+    <input
+      type="radio"
+      name="paymentMethod"
+      value="cash"
+      checked
+    />
+    <span>💵 Plată la livrare</span>
+  </label>
+
+  <label class="payment-option">
+    <input
+      type="radio"
+      name="paymentMethod"
+      value="card"
+      disabled
+    />
+    <span>💳 Plată online cu cardul <small>(în curând)</small></span>
+  </label>
+
+</div>
 
       <textarea
         name="message"

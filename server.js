@@ -314,7 +314,7 @@ app.get("/api/orders", (req, res) => {
 
 app.post("/api/orders", async (req, res) => {
   try {
-    const { customer, items, delivery, notes } = req.body;
+    const { customer, items, delivery, notes, payment } = req.body;
 
     if (!customer?.name || !customer?.phone || !items?.length) {
       return res.status(400).json({ error: "Comanda este incompletă." });
@@ -351,15 +351,19 @@ return {
     const orders = readJson(ORDERS_FILE);
 
     const order = {
-      id: makeId("o"),
-      createdAt: new Date().toISOString(),
-      status: "Nouă",
-      customer,
-      delivery,
-      notes: notes || "",
-      items: orderItems,
-      total,
-    };
+  id: makeId("o"),
+  createdAt: new Date().toISOString(),
+  status: payment?.method === "card" ? "Așteaptă plata" : "Nouă",
+  customer,
+  delivery,
+  payment: {
+    method: payment?.method || "cash",
+    status: payment?.method === "card" ? "Așteaptă plata" : "Plată la livrare",
+  },
+  notes: notes || "",
+  items: orderItems,
+  total,
+};
 
     orders.unshift(order);
     writeJson(ORDERS_FILE, orders);

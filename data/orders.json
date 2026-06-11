@@ -1,5 +1,32 @@
 [
   {
+    "id": "o_1781167980223_d9b32a",
+    "createdAt": "2026-06-11T08:53:00.223Z",
+    "status": "Nouă",
+    "customer": {
+      "name": "Mihai Mahera",
+      "phone": "0784328243",
+      "email": "mihaimahera@gmail.com"
+    },
+    "delivery": {
+      "address": "maria rosetti nr 36 et 5 ap 20 sector 2"
+    },
+    "payment": {
+      "method": "cash",
+      "status": "Plată la livrare"
+    },
+    "notes": "asdsadsa",
+    "items": [
+      {
+        "id": "p_1781166158005_df8eae",
+        "name": "Bumbac",
+        "price": 12,
+        "qty": 1
+      }
+    ],
+    "total": 12
+  },
+  {
     "id": "o_1781101653672_b92459",
     "createdAt": "2026-06-10T14:27:33.672Z",
     "status": "Nouă",
