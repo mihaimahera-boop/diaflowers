@@ -10,17 +10,21 @@ const checkoutForm = document.getElementById("checkoutForm");
 const orderMessage = document.getElementById("orderMessage");
 const promoCodeInput = document.getElementById("promoCode");
 const promoMessage = document.getElementById("promoMessage");
-
+const sortProducts = document.getElementById("sortProducts");
 const openCheckoutBtn = document.getElementById("openCheckoutBtn");
 const checkoutModal = document.getElementById("checkoutModal");
 const closeCheckoutBtn = document.getElementById("closeCheckoutBtn");
 const cartCheckoutBtn = document.getElementById("cartCheckoutBtn");
+const favoritesFilterBtn = document.getElementById("favoritesFilterBtn");
 
 const WHATSAPP_PHONE = "40764699342";
 
 let products = [];
 let cart = JSON.parse(localStorage.getItem("flowerCart") || "[]");
+let favorites = JSON.parse(localStorage.getItem("flowerFavorites") || "[]");
 let currentCategory = "toate";
+let showOnlyFavorites = false;
+let currentSort = "default";
 let appliedPromo = null;
 
 const lei = (n) => `${Number(n || 0).toLocaleString("ro-RO")} lei`;
@@ -42,12 +46,15 @@ function calculatePromoDiscount(subtotal) {
   if (code === "FLORI50") {
     if (subtotal < 300) {
       appliedPromo = null;
-      if (promoMessage) promoMessage.textContent = "FLORI50 se aplică la comenzi peste 300 lei.";
+      if (promoMessage)
+        promoMessage.textContent =
+          "FLORI50 se aplică la comenzi peste 300 lei.";
       return 0;
     }
 
     appliedPromo = { code, discount: 50 };
-    if (promoMessage) promoMessage.textContent = "Cod aplicat: 50 lei reducere.";
+    if (promoMessage)
+      promoMessage.textContent = "Cod aplicat: 50 lei reducere.";
     return 50;
   }
 
@@ -68,7 +75,7 @@ async function loadProducts() {
 function renderProducts() {
   const q = (searchInput.value || "").toLowerCase();
 
-  const filtered = products.filter((p) => {
+  let filtered = products.filter((p) => {
     const matchesSearch = [p.name, p.category, p.description]
       .join(" ")
       .toLowerCase()
@@ -77,13 +84,51 @@ function renderProducts() {
     const matchesCategory =
       currentCategory === "toate" || p.category === currentCategory;
 
-    return matchesSearch && matchesCategory;
+    const matchesFavorites = !showOnlyFavorites || favorites.includes(p.id);
+
+    return matchesSearch && matchesCategory && matchesFavorites;
   });
+  if (currentSort === "bestseller") {
+    filtered.sort(
+      (a, b) => Number(b.bestseller || false) - Number(a.bestseller || false),
+    );
+  }
+
+  if (currentSort === "priceAsc") {
+    filtered.sort((a, b) => Number(a.price) - Number(b.price));
+  }
+
+  if (currentSort === "priceDesc") {
+    filtered.sort((a, b) => Number(b.price) - Number(a.price));
+  }
+
+  if (currentSort === "nameAsc") {
+    filtered.sort((a, b) => a.name.localeCompare(b.name));
+  }
+
+  if (currentSort === "nameDesc") {
+    filtered.sort((a, b) => b.name.localeCompare(a.name));
+  }
 
   productsGrid.innerHTML = filtered
     .map(
       (p) => `
       <article class="product-card">
+      <div
+  class="favorite-btn"
+  onclick="event.stopPropagation(); toggleFavorite('${p.id}')"
+>
+  ${favorites.includes(p.id) ? "❤️" : "🤍"}
+</div>
+      ${
+        p.bestseller
+          ? `
+<div class="bestseller-badge">
+🔥 Bestseller
+</div>
+`
+          : ""
+      }
         <img
           src="${p.image || p.images?.[0] || "https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=900&q=80"}"
           alt="${p.name}"
@@ -98,7 +143,10 @@ function renderProducts() {
 
         <div class="product-body">
           <span class="category">${p.category}</span>
-          <h3>${p.name}</h3>
+          <h3>
+${p.bestseller ? "🔥 " : ""}
+${p.name}
+</h3>
           <p>${p.description || ""}</p>
 
           <div class="price-row">
@@ -107,8 +155,8 @@ function renderProducts() {
     Number(p.stock || 0) <= 0
       ? '<span class="out-of-stock">Stoc epuizat</span>'
       : Number(p.stock || 0) <= 3
-      ? `<span class="low-stock">Ultimele ${p.stock} bucăți</span>`
-      : `<span class="in-stock">În stoc: ${p.stock}</span>`
+        ? `<span class="low-stock">Ultimele ${p.stock} bucăți</span>`
+        : `<span class="in-stock">În stoc: ${p.stock}</span>`
   }
 </div>
 
@@ -121,12 +169,95 @@ function renderProducts() {
 >
   ${Number(p.stock || 0) <= 0 ? "Indisponibil" : "Adaugă"}
 </button>
+
           </div>
+          <button
+  class="similar-btn"
+  onclick="event.stopPropagation(); showSimilarProducts('${p.id}')"
+>
+  Vezi produse similare
+</button>
         </div>
       </article>
-    `
+    `,
     )
     .join("");
+}
+function showSimilarProducts(productId) {
+  const product = products.find((p) => p.id === productId);
+  if (!product) return;
+
+  const similar = products
+    .filter((p) => p.id !== productId && p.category === product.category)
+    .slice(0, 4);
+
+  if (similar.length === 0) {
+    alert("Nu există produse similare momentan.");
+    return;
+  }
+
+  const modal = document.createElement("div");
+  modal.className = "similar-modal";
+  modal.innerHTML = `
+    <div class="similar-modal-content">
+      <button class="similar-close" onclick="closeSimilarModal()">×</button>
+
+      <h2>Produse similare cu ${product.name}</h2>
+
+      <div class="similar-products-grid">
+        ${similar
+          .map(
+            (p) => `
+            <article class="product-card similar-card">
+              <div
+                class="favorite-btn"
+                onclick="event.stopPropagation(); toggleFavorite('${p.id}')"
+              >
+                ${favorites.includes(p.id) ? "❤️" : "🤍"}
+              </div>
+
+              <img
+                src="${p.image || p.images?.[0] || "https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=900&q=80"}"
+                alt="${p.name}"
+                onclick="openGallery('${p.id}')"
+              />
+
+              <div class="product-body">
+                <span class="category">${p.category}</span>
+                <h3>${p.name}</h3>
+                <p>${p.description || ""}</p>
+
+                <div class="price-row">
+                  <span class="price">${lei(p.price)}</span>
+
+                  <button
+                    class="add-btn"
+                    ${Number(p.stock || 0) <= 0 ? "disabled" : ""}
+                    onclick="addToCart('${p.id}')"
+                  >
+                    ${Number(p.stock || 0) <= 0 ? "Indisponibil" : "Adaugă"}
+                  </button>
+                  <button
+  class="similar-btn"
+  onclick="event.stopPropagation(); showSimilarProducts('${p.id}')"
+>
+  Produse similare
+</button>
+                </div>
+              </div>
+            </article>
+          `,
+          )
+          .join("")}
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(modal);
+}
+function closeSimilarModal() {
+  const modal = document.querySelector(".similar-modal");
+  if (modal) modal.remove();
 }
 
 function addToCart(id) {
@@ -142,6 +273,22 @@ function addToCart(id) {
   renderCart();
   cartDrawer.classList.remove("hidden");
 }
+function saveFavorites() {
+  localStorage.setItem("flowerFavorites", JSON.stringify(favorites));
+}
+
+function toggleFavorite(id) {
+  favorites = [...new Set(favorites)];
+
+  if (favorites.includes(id)) {
+    favorites = favorites.filter((x) => x !== id);
+  } else {
+    favorites.push(id);
+  }
+
+  saveFavorites();
+  renderProducts();
+}
 
 function changeQty(id, delta) {
   const item = cart.find((i) => i.id === id);
@@ -153,6 +300,12 @@ function changeQty(id, delta) {
   if (item.qty <= 0) {
     cart = cart.filter((i) => i.id !== id);
   }
+
+  saveCart();
+  renderCart();
+}
+function removeFromCart(id) {
+  cart = cart.filter((i) => i.id !== id);
 
   saveCart();
   renderCart();
@@ -181,36 +334,65 @@ function renderCart() {
             </div>
 
             <div class="qty-actions">
-              <button onclick="changeQty('${x.id}', -1)">-</button>
-              <span>${x.qty}</span>
-              <button onclick="changeQty('${x.id}', 1)">+</button>
-            </div>
+  <button onclick="changeQty('${x.id}', -1)">-</button>
+  <span>${x.qty}</span>
+  <button onclick="changeQty('${x.id}', 1)">+</button>
+</div>
+
+<button
+  class="remove-cart-btn"
+  onclick="removeFromCart('${x.id}')"
+>
+  🗑 Elimină
+</button>
           </div>
-        `
+        `,
         )
         .join("")
     : "<p>Coșul este gol.</p>";
 
-  const subtotal = rows.reduce(
-  (s, x) => s + x.product.price * x.qty,
-  0
-);
+  const subtotal = rows.reduce((s, x) => s + x.product.price * x.qty, 0);
 
-const discount = calculatePromoDiscount(subtotal);
+  const discount = calculatePromoDiscount(subtotal);
 
-const transport = subtotal >= 250 ? 0 : 25;
+  const transport = subtotal >= 250 ? 0 : 25;
 
-const total = Math.max(
-  0,
-  subtotal + transport - discount
-);
+  const total = Math.max(0, subtotal + transport - discount);
 
-const count = rows.reduce(
-  (s, x) => s + x.qty,
-  0
-);
+  const count = rows.reduce((s, x) => s + x.qty, 0);
 
-cartTotal.innerHTML = `
+  const progress = Math.min(100, Math.round((subtotal / 250) * 100));
+
+  cartTotal.innerHTML = `
+<div class="free-shipping-progress">
+
+  <div class="progress-bar">
+    <div
+      class="progress-fill"
+      style="width:${progress}%"
+    ></div>
+  </div>
+
+  ${
+    subtotal >= 250
+      ? `
+        <div class="free-shipping-success">
+          🎉 Ai obținut livrare gratuită!
+        </div>
+      `
+      : `
+        <div class="free-shipping-text">
+          Mai adaugă produse de
+          <strong>${lei(250 - subtotal)}</strong>
+          pentru livrare gratuită 🚚
+        </div>
+      `
+  }
+
+</div>
+
+<br>
+
 Produse: ${lei(subtotal)}<br>
 Reducere: ${discount > 0 ? `-${lei(discount)}` : "0 lei"}<br>
 Transport: ${transport === 0 ? "GRATUIT" : lei(transport)}<br>
@@ -219,19 +401,21 @@ Transport: ${transport === 0 ? "GRATUIT" : lei(transport)}<br>
   cartCount.textContent = count;
   const missing = 250 - subtotal;
 
-if (subtotal > 0 && subtotal < 250) {
-  cartTotal.innerHTML += `
+  if (subtotal > 0 && subtotal < 250) {
+    cartTotal.innerHTML += `
     <div style="margin-top:10px;color:#e11d72;font-weight:700;">
       Mai adaugă produse de ${lei(missing)}
       pentru livrare gratuită 🚚
     </div>
   `;
-}
+  }
 }
 
 function buildWhatsAppMessage(order, rows) {
   const produse = rows
-    .map((x) => `- ${x.product.name} x ${x.qty} = ${lei(x.product.price * x.qty)}`)
+    .map(
+      (x) => `- ${x.product.name} x ${x.qty} = ${lei(x.product.price * x.qty)}`,
+    )
     .join("\n");
 
   return `
@@ -284,25 +468,25 @@ checkoutForm.addEventListener("submit", async (e) => {
   const form = new FormData(checkoutForm);
 
   const payload = {
-  customer: {
-    name: form.get("name"),
-    phone: form.get("phone"),
-    email: form.get("email"),
-  },
-  delivery: {
-    address: form.get("address"),
-  },
-  payment: {
-  method: form.get("paymentMethod") || "cash",
-},
+    customer: {
+      name: form.get("name"),
+      phone: form.get("phone"),
+      email: form.get("email"),
+    },
+    delivery: {
+      address: form.get("address"),
+    },
+    payment: {
+      method: form.get("paymentMethod") || "cash",
+    },
 
-promo: appliedPromo,
+    promo: appliedPromo,
 
-notes: form.get("message"),
-items: cart,
-};
+    notes: form.get("message"),
+    items: cart,
+  };
 
-const res = await fetch("/api/orders", {
+  const res = await fetch("/api/orders", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -313,15 +497,15 @@ const res = await fetch("/api/orders", {
   const data = await res.json();
 
   if (!res.ok) {
-  const errorText = data.error || "Eroare la trimiterea comenzii.";
+    const errorText = data.error || "Eroare la trimiterea comenzii.";
 
-  orderMessage.textContent = errorText;
-  orderMessage.style.color = "#dc2626";
+    orderMessage.textContent = errorText;
+    orderMessage.style.color = "#dc2626";
 
-  alert(errorText);
+    alert(errorText);
 
-  return;
-}
+    return;
+  }
 
   cart = [];
   saveCart();
@@ -331,8 +515,7 @@ const res = await fetch("/api/orders", {
   checkoutModal.classList.add("hidden");
   cartDrawer.classList.add("hidden");
 
-  orderMessage.textContent =
-    `Comanda ${data.id} a fost înregistrată. Te vom contacta telefonic pentru confirmarea livrării. Dacă ai introdus adresa de email, vei primi și confirmarea pe email.`;
+  orderMessage.textContent = `Comanda ${data.id} a fost înregistrată. Te vom contacta telefonic pentru confirmarea livrării. Dacă ai introdus adresa de email, vei primi și confirmarea pe email.`;
 
   // openWhatsApp(buildWhatsAppMessage(data, rows));
 });
@@ -342,14 +525,18 @@ closeCart.onclick = () => cartDrawer.classList.add("hidden");
 
 searchInput.oninput = renderProducts;
 
-document.querySelectorAll(".category-btn").forEach((btn) => {
+document.querySelectorAll(".category-btn[data-category]").forEach((btn) => {
   btn.addEventListener("click", () => {
     document
-      .querySelectorAll(".category-btn")
+      .querySelectorAll(".category-btn[data-category]")
       .forEach((b) => b.classList.remove("active"));
 
     btn.classList.add("active");
+
     currentCategory = btn.dataset.category;
+    showOnlyFavorites = false;
+
+    favoritesFilterBtn?.classList.remove("active");
 
     renderProducts();
   });
@@ -360,10 +547,7 @@ function openGallery(id) {
 
   if (!product) return;
 
-  const images =
-    product.images?.length
-      ? product.images
-      : [product.image];
+  const images = product.images?.length ? product.images : [product.image];
 
   const currentImage = images[0];
 
@@ -402,7 +586,7 @@ function openGallery(id) {
                       class="gallery-thumb"
                       onclick="changeGalleryImage('${img}')"
                     >
-                  `
+                  `,
                 )
                 .join("")}
             </div>
@@ -431,11 +615,7 @@ function openGallery(id) {
 
             <button
               class="popup-add-btn"
-              ${
-                Number(product.stock || 0) <= 0
-                  ? "disabled"
-                  : ""
-              }
+              ${Number(product.stock || 0) <= 0 ? "disabled" : ""}
               onclick="addToCart('${product.id}'); closeGallery();"
             >
               ${
@@ -454,10 +634,7 @@ function openGallery(id) {
     </div>
   `;
 
-  document.body.insertAdjacentHTML(
-    "beforeend",
-    galleryHtml
-  );
+  document.body.insertAdjacentHTML("beforeend", galleryHtml);
 }
 
 function closeGallery() {
@@ -481,5 +658,24 @@ closeCheckoutBtn?.addEventListener("click", () => {
 });
 promoCodeInput?.addEventListener("input", () => {
   renderCart();
+});
+favoritesFilterBtn?.addEventListener("click", () => {
+  showOnlyFavorites = !showOnlyFavorites;
+
+  document
+    .querySelectorAll(".category-btn[data-category]")
+    .forEach((b) => b.classList.remove("active"));
+
+  if (showOnlyFavorites) {
+    currentCategory = "toate";
+  }
+
+  favoritesFilterBtn.classList.toggle("active", showOnlyFavorites);
+
+  renderProducts();
+});
+sortProducts?.addEventListener("change", () => {
+  currentSort = sortProducts.value;
+  renderProducts();
 });
 loadProducts();

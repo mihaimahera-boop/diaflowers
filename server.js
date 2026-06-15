@@ -308,6 +308,7 @@ app.post("/api/products", (req, res) => {
     image: image || "",
     images: Array.isArray(images) ? images : [],
     description: description || "",
+    bestseller: false,
   };
 
   products.unshift(product);

@@ -71,7 +71,10 @@ function renderProducts() {
             : ""
         }
 
-        <strong>${p.name}</strong><br>
+        <strong>
+${p.bestseller ? "🔥 " : ""}
+${p.name}
+</strong><br>
 
 ${p.category} · ${lei(p.price)}
 
@@ -254,6 +257,9 @@ async function editProduct(id) {
 
   const description = prompt("Descriere:", product.description || "");
   if (description === null) return;
+  const bestseller = confirm(
+  `Produs bestseller?\n\nOK = Da\nCancel = Nu`
+);
 
   await fetch(`/api/products/${id}`, {
     method: "PUT",
@@ -266,6 +272,7 @@ async function editProduct(id) {
       price,
       stock,
       description,
+      bestseller,
       image: product.image,
       images: product.images || [],
     }),
