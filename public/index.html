@@ -49,83 +49,76 @@
 
 <body>
 
-<header class="site-header">
-  <div class="top-strip">
-    <span>🚚 Livrare flori în aceeași zi</span>
-    <span>💐 Flori proaspete, alese cu grijă</span>
-    <span>☎ 0764 699 342</span>
+<div class="top-info-bar">
+  <div class="top-info-slider">
+    <span>📍 Ridicare personală din București - Gara de Nord</span>
+    <span>|</span>
+    <span>🚚 Livrare rapidă în București</span>
+  </div>
+</div>
+
+  <div class="header-main">
+
+    <a href="index.html" class="logo">
+      <img
+        src="./images/logo-dia-flowers-header.png"
+        alt="Dia Flowers"
+        class="logo-img"
+      >
+    </a>
+
+    <nav class="main-menu">
+      <a href="#shop">Buchete</a>
+      <a href="#shop">Aranjamente Florale</a>
+      <a href="#shop">Nuntă</a>
+      <a href="#shop">Botez</a>
+      <a href="#shop">Cadouri</a>
+      <a href="#shop">Coroane Funerare</a>
+      <a href="#contact">Contact</a>
+    </nav>
+
+    <div class="header-actions">
+
+      <a href="tel:0764699342" class="header-phone">
+        ☎ 0764 699 342
+      </a>
+
+      <button id="searchToggle" class="header-search-btn" type="button">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+    <circle cx="11" cy="11" r="7" stroke="#4a1024" stroke-width="2"/>
+    <path d="M20 20L17 17" stroke="#4a1024" stroke-width="2" stroke-linecap="round"/>
+  </svg>
+</button>
+<input
+  id="headerSearch"
+  type="text"
+  placeholder="Caută..."
+  class="header-search-hidden"
+/>
+
+      <button id="cartBtn" class="cart-btn">
+        Coș <span id="cartCount">0</span>
+      </button>
+
+    </div>
+
   </div>
 
-  <nav class="main-nav">
-    <a class="logo" href="index.html">
-  <img src="./images/logo-dia-flowers-header.png" alt="Dia Flowers" class="logo-img">
-</a>
-
-    <div class="nav-actions">
-      <a href="#shop">Magazin</a>
-      <a href="#shop">Buchete</a>
-      <a href="#checkout">Checkout</a>
-      <button id="cartBtn">Coș <span id="cartCount">0</span></button>
-    </div>
-  </nav>
 </header>
 <section class="promo-banner">
-  🚚 Livrare gratuită în București la comenzi peste 250 lei
+  <div class="promo-scroll">
+    • 🚚 Livrare rapidă în București • 🚚 Livrare rapidă în București • 🚚 Livrare rapidă în București • 🚚 Livrare rapidă în București • 🚚 Livrare rapidă în București • 🚚 Livrare rapidă în București • 🚚 Livrare rapidă în București • 🚚 Livrare rapidă în București • 🚚 Livrare rapidă în București • 🚚 Livrare rapidă în București
+  </div>
 </section>
 
 <main>
 
-  <section class="hero-premium">
-    <div class="hero-text">
-      <p class="badge">🌸 Florărie online premium</p>
-      <h1>Flori care transmit emoții</h1>
-      <p>Buchete elegante, create cu grijă pentru persoanele importante din viața ta.</p>
-      <a class="cta" href="#shop">Comandă acum</a>
-    </div>
-
-    <div class="hero-products">
-
-  <div class="hero-product">
-    <img src="https://images.unsplash.com/photo-1563241527-3004b7be0ffd?auto=format&fit=crop&w=800&q=90">
-
-    <div class="hero-product-content">
-      <h3>Buchet Romantic</h3>
-      <span>249 lei</span>
-
-      <a href="#shop" class="hero-product-btn">
-        Vezi produse
-      </a>
-    </div>
-  </div>
-
-  <div class="hero-product big">
-    <img src="https://images.unsplash.com/photo-1526047932273-341f2a7631f9?auto=format&fit=crop&w=800&q=90">
-
-    <div class="hero-product-content">
-      <h3>Buchet Premium</h3>
-      <span>299 lei</span>
-
-      <a href="#shop" class="hero-product-btn">
-        Vezi produse
-      </a>
-    </div>
-  </div>
-
-  <div class="hero-product">
-    <img src="https://images.unsplash.com/photo-1519378058457-4c29a0a2efac?auto=format&fit=crop&w=800&q=90">
-
-    <div class="hero-product-content">
-      <h3>Buchet Deluxe</h3>
-      <span>349 lei</span>
-
-      <a href="#shop" class="hero-product-btn">
-        Vezi produse
-      </a>
-    </div>
-  </div>
-
-</div>
-  </section>
+  <section class="hero-full">
+  <img
+    src="./images/hero-diaflowers.png"
+    alt="Dia Flowers"
+  >
+</section>
 
   <section class="features">
     <div>🚚 Livrare rapidă</div>
@@ -152,16 +145,28 @@
   </button>
 
   <button class="category-btn" data-category="Buchete">
-    Buchete
-  </button>
+  Buchete
+</button>
 
-  <button class="category-btn" data-category="Aranjamente">
-    Aranjamente
-  </button>
+<button class="category-btn" data-category="Aranjamente Florale">
+  Aranjamente Florale
+</button>
 
-  <button class="category-btn" data-category="Plante">
-    Plante
-  </button>
+<button class="category-btn" data-category="Nuntă">
+  Nuntă
+</button>
+
+<button class="category-btn" data-category="Botez">
+  Botez
+</button>
+
+<button class="category-btn" data-category="Cadouri">
+  Cadouri
+</button>
+
+<button class="category-btn" data-category="Coroane Funerare">
+  Coroane Funerare
+</button>
   <button id="favoritesFilterBtn" class="category-btn" type="button">
   ❤️ Favorite
 </button>
@@ -277,7 +282,7 @@
   </div>
 
 </section>
-<footer class="site-footer">
+<footer id="contact" class="site-footer">
 
   <div class="footer-grid">
 
@@ -296,12 +301,23 @@
   </a>
 </p>
 <p>
-  <a
-    href="https://wa.me/40764699342"
-    target="_blank"
-  >
-    💬 Scrie-ne pe WhatsApp
-  </a>
+  <div class="floating-help">
+
+  <div class="phone-order-box">
+    <div>
+      <strong>Comandă telefonic:</strong>
+      <a href="tel:+40764699342">0764 699 342</a>
+    </div>
+    <span>🎧</span>
+  </div>
+
+  <div class="chat-help-box">
+    <strong>Vă putem ajuta cu ceva?</strong>
+    <p><span></span> Suntem online</p>
+
+  </div>
+
+</div>
 </p>
       <p>
   Email:

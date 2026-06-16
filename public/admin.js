@@ -170,6 +170,12 @@ function renderOrders() {
           <option ${o.status === "Livrată" ? "selected" : ""}>Livrată</option>
           <option ${o.status === "Anulată" ? "selected" : ""}>Anulată</option>
         </select>
+        <button
+  class="delete-order-btn"
+  onclick="deleteOrder('${o.id}')"
+>
+  🗑️ Șterge comanda
+</button>
       </div>
     `;
       })
@@ -301,6 +307,20 @@ async function updateStatus(id, status) {
     },
     body: JSON.stringify({ status }),
   });
+
+  loadAdmin();
+}
+async function deleteOrder(id) {
+  if (!confirm("Sigur vrei să ștergi această comandă?")) return;
+
+  const res = await fetch(`/api/orders/${id}`, {
+    method: "DELETE",
+  });
+
+  if (!res.ok) {
+    alert("Nu am putut șterge comanda.");
+    return;
+  }
 
   loadAdmin();
 }

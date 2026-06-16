@@ -14,9 +14,15 @@
   }
 </script>
   <header class="admin-header">
-    <div class="logo">🌸 Admin Florărie</div>
-    <a href="index.html">Înapoi la magazin</a>
-    <button onclick="logoutAdmin()">Logout</button>
+    <a href="admin.html" class="admin-title">
+  🌸 Admin Florărie
+</a>
+    <a href="/" id="backToShop">
+  🏠 Înapoi la magazin
+</a>
+    <button onclick="logoutAdmin()" class="logout-btn">
+  Ieșire
+</button>
   </header>
   <main class="admin-layout">
     <section class="admin-stats">
@@ -48,7 +54,15 @@
       <h2>Adaugă produs</h2>
       <form id="productForm" class="admin-form">
         <input name="name" placeholder="Nume produs" required />
-        <input name="category" placeholder="Categorie" required />
+        <select name="category" required>
+  <option value="">Alege categoria</option>
+  <option value="Buchete">Buchete</option>
+  <option value="Aranjamente Florale">Aranjamente Florale</option>
+  <option value="Nuntă">Nuntă</option>
+  <option value="Botez">Botez</option>
+  <option value="Cadouri">Cadouri</option>
+  <option value="Coroane Funerare">Coroane Funerare</option>
+</select>
         <input name="price" type="number" placeholder="Preț" required />
         <input name="stock" type="number" placeholder="Stoc" value="1" />
         <input name="imageFile" type="file" accept="image/*" multiple />

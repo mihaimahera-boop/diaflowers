@@ -678,4 +678,28 @@ sortProducts?.addEventListener("change", () => {
   currentSort = sortProducts.value;
   renderProducts();
 });
+
+
 loadProducts();
+document.addEventListener("DOMContentLoaded", () => {
+  const searchToggle = document.getElementById("searchToggle");
+  const headerSearch = document.getElementById("headerSearch");
+  const searchInput = document.getElementById("searchInput");
+
+  if (searchToggle && headerSearch) {
+    searchToggle.addEventListener("click", () => {
+      headerSearch.classList.toggle("active");
+
+      if (headerSearch.classList.contains("active")) {
+        headerSearch.focus();
+      }
+    });
+  }
+
+  if (headerSearch && searchInput) {
+    headerSearch.addEventListener("input", () => {
+      searchInput.value = headerSearch.value;
+      renderProducts();
+    });
+  }
+});

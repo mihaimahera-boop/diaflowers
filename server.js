@@ -432,6 +432,7 @@ return {
 });
 
 app.patch("/api/orders/:id/status", async (req, res) => {
+  
   const orders = readJson(ORDERS_FILE);
   const order = orders.find((o) => o.id === req.params.id);
 
@@ -451,6 +452,19 @@ app.patch("/api/orders/:id/status", async (req, res) => {
   }
 
   res.json(order);
+});
+app.delete("/api/orders/:id", (req, res) => {
+  const orders = readJson(ORDERS_FILE);
+
+  const filteredOrders = orders.filter(
+    (o) => o.id !== req.params.id
+  );
+
+  writeJson(ORDERS_FILE, filteredOrders);
+
+  res.json({
+    ok: true,
+  });
 });
 
 app.post("/api/upload", upload.single("image"), (req, res) => {
