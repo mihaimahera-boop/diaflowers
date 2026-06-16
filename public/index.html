@@ -59,23 +59,31 @@
 
   <div class="header-main">
 
-    <a href="index.html" class="logo">
-      <img
-        src="./images/logo-dia-flowers-header.png"
-        alt="Dia Flowers"
-        class="logo-img"
-      >
-    </a>
+  <button
+    id="mobileMenuBtn"
+    class="mobile-menu-btn"
+    type="button"
+  >
+    ☰
+  </button>
 
-    <nav class="main-menu">
-      <a href="#shop">Buchete</a>
-      <a href="#shop">Aranjamente Florale</a>
-      <a href="#shop">Nuntă</a>
-      <a href="#shop">Botez</a>
-      <a href="#shop">Cadouri</a>
-      <a href="#shop">Coroane Funerare</a>
-      <a href="#contact">Contact</a>
-    </nav>
+  <a href="index.html" class="logo">
+    <img
+      src="./images/logo-dia-flowers-header.png"
+      alt="Dia Flowers"
+      class="logo-img"
+    >
+  </a>
+
+  <nav class="main-menu" id="mainMenu">
+  <a href="#shop">Buchete</a>
+  <a href="#shop">Aranjamente Florale</a>
+  <a href="#shop">Nuntă</a>
+  <a href="#shop">Botez</a>
+  <a href="#shop">Cadouri</a>
+  <a href="#shop">Coroane Funerare</a>
+  <a href="#contact">Contact</a>
+</nav>
 
     <div class="header-actions">
 
@@ -114,10 +122,13 @@
 <main>
 
   <section class="hero-full">
-  <img
-    src="./images/hero-diaflowers.png"
-    alt="Dia Flowers"
-  >
+  <img src="./images/hero-diaflowers.png" alt="Dia Flowers">
+
+  <div class="mobile-hero-text">
+    <h1>Flori care transmit emoții</h1>
+    <p>Buchete elegante, create cu grijă pentru persoanele importante din viața ta.</p>
+    <a href="#shop">Comandă acum</a>
+  </div>
 </section>
 
   <section class="features">
@@ -301,23 +312,7 @@
   </a>
 </p>
 <p>
-  <div class="floating-help">
-
-  <div class="phone-order-box">
-    <div>
-      <strong>Comandă telefonic:</strong>
-      <a href="tel:+40764699342">0764 699 342</a>
-    </div>
-    <span>🎧</span>
-  </div>
-
-  <div class="chat-help-box">
-    <strong>Vă putem ajuta cu ceva?</strong>
-    <p><span></span> Suntem online</p>
-
-  </div>
-
-</div>
+  
 </p>
       <p>
   Email:
@@ -455,6 +450,31 @@
   </div>
 
 </div>
+<div class="chat-widget" id="chatWidget">
+  <div class="chat-header">
+    <button id="closeChat" type="button">←</button>
+    <strong>Dia Flowers</strong>
+    <span>⋮</span>
+  </div>
+
+  <div class="chat-body">
+    <div class="chat-date">Astăzi</div>
+
+    <div class="chat-message">
+      Bună ziua! 👋<br>
+      Cu ce vă putem ajuta?
+    </div>
+  </div>
+
+  <div class="chat-input">
+    <input id="chatMessageInput" placeholder="Introdu aici mesajul tău..." />
+    <button id="sendChatMessage" type="button">➤</button>
+  </div>
+</div>
+
+<button class="chat-open-btn" id="openChat" type="button">
+  💬
+</button>
 <script src="app.js"></script>
 </body>
 </html>

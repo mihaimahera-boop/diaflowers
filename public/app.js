@@ -700,6 +700,45 @@ document.addEventListener("DOMContentLoaded", () => {
     headerSearch.addEventListener("input", () => {
       searchInput.value = headerSearch.value;
       renderProducts();
+      const mobileMenuBtn = document.getElementById("mobileMenuBtn");
+const mainMenu = document.getElementById("mainMenu");
+
+if (mobileMenuBtn && mainMenu) {
+  mobileMenuBtn.addEventListener("click", () => {
+    mainMenu.classList.toggle("open");
+  });
+}
     });
   }
+});
+document.addEventListener("DOMContentLoaded", () => {
+  const mobileMenuBtn = document.getElementById("mobileMenuBtn");
+  const mainMenu = document.getElementById("mainMenu");
+
+  if (mobileMenuBtn && mainMenu) {
+    mobileMenuBtn.addEventListener("click", () => {
+      mainMenu.classList.toggle("open");
+    });
+  }
+});
+const openChat = document.getElementById("openChat");
+const closeChat = document.getElementById("closeChat");
+const chatWidget = document.getElementById("chatWidget");
+const chatMessageInput = document.getElementById("chatMessageInput");
+const sendChatMessage = document.getElementById("sendChatMessage");
+
+openChat?.addEventListener("click", () => {
+  chatWidget.classList.add("open");
+});
+
+closeChat?.addEventListener("click", () => {
+  chatWidget.classList.remove("open");
+});
+
+sendChatMessage?.addEventListener("click", () => {
+  const message = chatMessageInput.value.trim();
+  if (!message) return;
+
+  const url = `https://wa.me/40764699342?text=${encodeURIComponent(message)}`;
+  window.open(url, "_blank");
 });
