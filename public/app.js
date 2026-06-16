@@ -742,3 +742,33 @@ sendChatMessage?.addEventListener("click", () => {
   const url = `https://wa.me/40764699342?text=${encodeURIComponent(message)}`;
   window.open(url, "_blank");
 });
+function acceptCookies() {
+  localStorage.setItem(
+    "diaflowersCookies",
+    "accepted"
+  );
+
+  document.getElementById(
+    "cookieBanner"
+  ).style.display = "none";
+}
+
+window.addEventListener("load", () => {
+
+  const accepted =
+    localStorage.getItem(
+      "diaflowersCookies"
+    );
+
+  if (accepted === "accepted") {
+
+    const banner =
+      document.getElementById(
+        "cookieBanner"
+      );
+
+    if (banner) {
+      banner.style.display = "none";
+    }
+  }
+});
