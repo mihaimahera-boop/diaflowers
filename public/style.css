@@ -2062,3 +2062,173 @@ button {
   background: #fde7ef;
   color: #e91e63;
 }
+/* MOBILE FINAL */
+
+@media (max-width: 768px) {
+  .top-info-bar {
+    height: 36px;
+    font-size: 12px;
+    text-align: center;
+    padding: 0 10px;
+  }
+
+  .top-info-slider {
+    gap: 10px;
+  }
+
+  .header-main {
+    height: auto;
+    padding: 14px 16px;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+
+  .logo-img {
+    height: 74px;
+  }
+
+  .main-menu {
+    order: 3;
+    width: 100%;
+    overflow-x: auto;
+    justify-content: flex-start;
+    gap: 12px;
+    padding-bottom: 6px;
+  }
+
+  .main-menu a {
+    white-space: nowrap;
+    background: #fff5f8;
+    border: 1px solid #f3bfd0;
+    padding: 8px 12px;
+    border-radius: 999px;
+    font-size: 13px;
+  }
+
+  .header-actions {
+    margin-left: auto;
+    gap: 10px;
+  }
+
+  .header-phone {
+    display: none;
+  }
+
+  .cart-btn {
+    padding: 10px 14px;
+    font-size: 13px;
+  }
+
+  .promo-banner {
+    height: 32px;
+  }
+
+  .promo-scroll {
+    font-size: 13px;
+  }
+
+  .hero-full img {
+    height: 420px;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .features {
+    grid-template-columns: 1fr 1fr;
+    padding: 18px 14px 0;
+    gap: 10px;
+  }
+
+  .features div {
+    padding: 16px 10px;
+    font-size: 13px;
+  }
+
+  .section-title {
+    display: block;
+  }
+
+  .section-title h2 {
+    font-size: 34px;
+    margin-bottom: 18px;
+  }
+
+  #searchInput,
+  .sort-select {
+    width: 100%;
+    margin-bottom: 12px;
+  }
+
+  .category-filters {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding-bottom: 8px;
+  }
+
+  .category-btn {
+    white-space: nowrap;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .floating-help {
+    right: 12px;
+    left: 12px;
+    bottom: 12px;
+    width: auto;
+  }
+
+  .phone-order-box {
+    display: none;
+  }
+}
+@media (max-width: 768px) {
+  .hero-full img {
+    height: 520px;
+    object-fit: cover;
+    object-position: 62% center;
+  }
+
+  .top-info-bar {
+    height: 34px;
+    font-size: 11px;
+  }
+
+  .top-info-slider {
+    gap: 8px;
+    white-space: nowrap;
+  }
+
+  .header-main {
+    padding: 14px 12px;
+  }
+
+  .logo-img {
+    height: 58px;
+  }
+
+  .main-menu {
+    order: 3;
+    width: 100%;
+    overflow-x: auto;
+    gap: 10px;
+    padding: 10px 0 4px;
+  }
+
+  .main-menu a {
+    font-size: 12px;
+    padding: 8px 12px;
+  }
+
+  .promo-banner {
+    height: 30px;
+  }
+
+  .promo-scroll {
+    font-size: 12px;
+  }
+}
