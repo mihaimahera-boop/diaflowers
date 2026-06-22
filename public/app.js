@@ -772,3 +772,31 @@ window.addEventListener("load", () => {
     }
   }
 });
+const bouquetConfiguratorForm = document.getElementById("bouquetConfiguratorForm");
+
+bouquetConfiguratorForm?.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  const formData = new FormData(bouquetConfiguratorForm);
+
+  const recipient = formData.get("recipient");
+  const emotion = formData.get("emotion");
+  const colors = formData.get("colors");
+  const budget = formData.get("budget");
+  const notes = formData.get("notes") || "-";
+
+  const message = `
+Bună! Aș dori un buchet personalizat Dia Flowers.
+
+Pentru: ${recipient}
+Emoție: ${emotion}
+Culori preferate: ${colors}
+Buget: ${budget}
+Mesaj / observații: ${notes}
+
+Vă rog să mă ajutați cu o recomandare.
+`;
+
+  const url = `https://wa.me/40764699342?text=${encodeURIComponent(message)}`;
+  window.open(url, "_blank");
+});

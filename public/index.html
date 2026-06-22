@@ -136,7 +136,80 @@
     <div>🎁 Mesaj cadou</div>
     <div>📞 Confirmare telefonică</div>
   </section>
+<section id="bouquetConfigurator" class="section configurator-section">
+  <div class="configurator-box">
+    <span class="configurator-badge">💐 Buchet personalizat</span>
 
+    <h2>Creează buchetul perfect</h2>
+
+    <p class="configurator-intro">
+      Spune-ne ce emoție vrei să transmiți, iar noi îți pregătim un buchet potrivit.
+    </p>
+
+    <form id="bouquetConfiguratorForm" class="configurator-form">
+
+      <label>
+        Pentru cine este buchetul?
+        <select name="recipient" required>
+          <option value="">Alege</option>
+          <option>Persoana iubită</option>
+          <option>Mamă</option>
+          <option>Prietenă</option>
+          <option>Colegă</option>
+          <option>Eveniment special</option>
+        </select>
+      </label>
+
+      <label>
+        Ce emoție vrei să transmită?
+        <select name="emotion" required>
+          <option value="">Alege</option>
+          <option>Iubire</option>
+          <option>Recunoștință</option>
+          <option>Bucurie</option>
+          <option>Eleganță</option>
+          <option>Surpriză</option>
+        </select>
+      </label>
+
+      <label>
+        Ce culori preferi?
+        <select name="colors" required>
+          <option value="">Alege</option>
+          <option>Roz / alb</option>
+          <option>Roșu</option>
+          <option>Alb / crem</option>
+          <option>Mov / pastel</option>
+          <option>Mixt colorat</option>
+        </select>
+      </label>
+
+      <label>
+        Buget estimativ
+        <select name="budget" required>
+          <option value="">Alege</option>
+          <option>150 - 200 lei</option>
+          <option>200 - 300 lei</option>
+          <option>300 - 500 lei</option>
+          <option>Peste 500 lei</option>
+        </select>
+      </label>
+
+      <label class="full">
+        Mesaj pe felicitare / observații
+        <textarea
+          name="notes"
+          placeholder="Ex: La mulți ani! Te iubesc! Prefer buchet elegant, pastel..."
+        ></textarea>
+      </label>
+
+      <button type="submit">
+        Trimite cererea pe WhatsApp
+      </button>
+
+    </form>
+  </div>
+</section>
   <section id="shop" class="section">
     <div class="section-title">
       <h2>Produse disponibile</h2>
